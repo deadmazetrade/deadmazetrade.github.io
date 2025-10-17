@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deadmaze Trading Calculator</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<br>
+<h2>Deadmaze Trading Calculator</h2>
+<div class="glass-container">
+  <div class="offer">
+    <h3># Offer 1</h3>
+    <div id="leftRowsContainer"></div> 
+    <button type="button" class="addKitBtn" onclick="addKitRow('leftRowsContainer')">+ Add Item</button>
+    <input id="leftValue" type="number" readonly placeholder="Value" />
+  </div>
+  <div class="offer">
+    <h3># Offer 2</h3>
+    <div id="rightRowsContainer"></div> 
+    <button type="button" class="addKitBtn" onclick="addKitRow('rightRowsContainer')">+ Add Item</button>
+    <input id="rightValue" type="number" readonly placeholder="Value" />
+  </div>
+</div>
+<div id="toastContainer"></div>
+<div class="review-section">
+  <div id="leftIcons" class="icon-group left"></div>
+  <button class="reviewBtn" onclick="reviewTrade()">Compare</button>
+  <div id="rightIcons"  class="icon-group right"></div>
+</div>
+<br><br>
+<div class="footer">Made by Rapidegaming#0915</div>
+<script src="main.js"></script>
+</body>
+</html>

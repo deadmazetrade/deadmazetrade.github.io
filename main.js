@@ -1,344 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Deadmaze Trade Calculator</title>
-<style>
-html {
-  height: 100%;
-  background-color: black;
-}
-
-body {
-  min-height: 100%;
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-  color: #eee;
-  text-align: center;
-  background: url("background.jpg") no-repeat center center fixed;
-  background-size: cover;
-}
-
-h2 {
-  color: #000;
-  background: rgba(255,255,255,0.9);
-  display: inline-block;
-  padding: 8px 16px;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-}
-
-.glass-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  background: rgba(34,34,34,0.5);
-  backdrop-filter: blur(5px);
-  border-radius: 16px;
-  padding: 20px 10px;
-  margin: 40px auto;
-  max-width: 700px;
-  border: 1px solid rgba(255,255,255,0.2);
-  gap: 10px;
-  position: relative;
-}
-
-.glass-container::before {
-  content: "";
-  position: absolute;
-  top: 10px;
-  bottom: 10px;
-  left: 50%;
-  width: 2px;
-  background: rgba(255,255,255,0.3);
-  transform: translateX(-50%);
-  border-radius: 1px;
-  z-index: 1;
-}
-
-.offer {
-  width: 48%;
-  text-align: center;
-  position: relative;
-  z-index: 2;
-}
-
-* { box-sizing: border-box; }
-
-input, select {
-  width: 80%;
-  margin: 6px 0;
-  padding: 6px;
-  border-radius: 6px;
-  border: 1px solid #444;
-  background: #333;
-  color: #eee;
-}
-
-input[readonly] {
-  background: #1a1a1a;
-  border: 1px solid #555;
-}
-
-.footer {
-  position: fixed;
-  bottom: 10px;
-  left: 14px;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 14px;
-  font-family: Arial, sans-serif;
-  background: rgba(0, 0, 0, 0.4);
-  padding: 4px 10px;
-  border-radius: 6px;
-  z-index: 9999; 
-  pointer-events: none;
-}
-
-
-button.reviewBtn {
-  padding: 14px 28px;
-  font-size: 1.4em;
-  border: 3px solid #228B22;
-  border-radius: 12px;
-  background: #32CD32;
-  color: black;
-  cursor: pointer;
-  font-weight: bold;
-  transition: transform 0.1s ease, background 0.3s ease, border-color 0.3s ease;
-}
-
-button.reviewBtn:hover {
-  transform: scale(1.05);
-  background: #013220;
-  border-color: #32CD32;
-  color: white;
-}
-
-button.addKitBtn {
-  margin-top: 10px;
-  padding: 6px 14px;
-  font-size: 1em;
-  border: 2px solid #228B22;
-  border-radius: 8px;
-  background: #32CD32;
-  color: black;
-  cursor: pointer;
-  font-weight: bold;
-  transition: transform 0.1s ease, background 0.3s ease, border-color 0.3s ease;
-}
-
-button.addKitBtn:hover {
-  transform: scale(1.05);
-  background: #013220;
-  border-color: #32CD32;
-  color: white;
-}
-
-.kitRow {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  justify-content: center;
-  margin-top: 6px;
-}
-
-.kitRow select,
-.kitRow input[type="number"],
-.kitRow button.smallBtn {
-  height: 36px;
-}
-
-.kitRow input[type="number"] {
-  width: 60px;
-  padding: 4px;
-  text-align: center;
-}
-
-.kitRow select.kitSelect { width: 140px; }
-.kitRow select.qualitySelect { width: 80px; }
-
-button.smallBtn {
-  width: 36px;
-  height: 36px;
-  padding: 0;
-  font-size: 1em;
-  margin-left: 4px;
-  border-radius: 6px;
-  background: #cc2222;
-  border: 1px solid #880000;
-  color: white;
-  cursor: pointer;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-  flex-shrink: 0;
-}
-
-button.smallBtn:hover { background: #aa0000; }
-
-.toast {
-  position: relative;
-  background: white;
-  color: #000;
-  padding: 12px 20px;
-  margin-top: 10px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  min-width: 250px;
-  max-width: 400px;
-  font-weight: bold;
-  transform: translateX(100%);
-  opacity: 0;
-  transition: transform 0.5s ease, opacity 0.5s ease;
-  white-space: pre-line;
-  text-align: left;
-}
-
-.toast.show {
-  transform: translateX(0);
-  opacity: 1;
-}
-
-.toast .closeBtn {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 1.6em;
-  line-height: 1;
-}
-
-#toastContainer {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 9999;
-}
-
-.review-section {
-  display: flex;
-  justify-content: center;   
-  align-items: center;
-  gap: 20px;                  
-  margin: 30px auto;
-  max-width: 900px;           
-  width: 100%;
-}
-
-.icon-group {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  width: 200px;               
-  justify-content: flex-end;   
-  flex-wrap: nowrap;           
-}
-
-.icon-group.right {
-  justify-content: flex-start; 
-}
-
-.icon-group.left img {
-  width: 44px;
-  height: 44px;
-  border-radius: 8px;
-  background: rgba(255,255,255,0.15);
-  border: 1px solid rgba(255,255,255,0.25);
-  opacity: 0;
-  transform: translateX(20px) scale(0.8); 
-  transition: transform 0.6s ease, opacity 0.6s ease;
-  flex-shrink: 0;
-}
-
-.icon-group.left img.show {
-  opacity: 1;
-  transform: translateX(0) scale(1); 
-}
-
-.icon-group.left img.hide {
-  opacity: 0;
-  transform: translateX(-20px) scale(0.6); 
-}
-
-.icon-group.right img {
-  width: 44px;
-  height: 44px;
-  border-radius: 8px;
-  background: rgba(255,255,255,0.15);
-  border: 1px solid rgba(255,255,255,0.25);
-  opacity: 0;
-  transform: translateX(-20px) scale(0.8);
-  transition: transform 0.6s ease, opacity 0.6s ease;
-  flex-shrink: 0;
-}
-
-.icon-group.right img.show {
-  opacity: 1;
-  transform: translateX(0) scale(1);
-}
-
-.icon-group.right img.hide {
-  opacity: 0;
-  transform: translateX(20px) scale(0.6);
-}
-
-button.reviewBtn {
-  flex-shrink: 0;
-  padding: 14px 28px;
-  font-size: 1.4em;
-  border: 3px solid #228B22;
-  border-radius: 12px;
-  background: #32CD32;
-  color: black;
-  cursor: pointer;
-  font-weight: bold;
-  z-index: 2;
-}
-</style>
-
-</head>
-<body>
-<br>
-<h2>Deadmaze Trade Calculator</h2>
-
-<div class="glass-container">
-  <div class="offer">
-    <h3># Offer 1</h3>
-    <div id="leftRowsContainer"></div> 
-	<button type="button" class="addKitBtn" onclick="addKitRow('leftRowsContainer')">+ Add Item</button>
-    <input id="leftValue" type="number" readonly placeholder="Value" />
-  </div>
-
-  <div class="offer">
-    <h3># Offer 2</h3>
-    <div id="rightRowsContainer"></div> 
-	<button type="button" class="addKitBtn" onclick="addKitRow('rightRowsContainer')">+ Add Item</button>
-    <input id="rightValue" type="number" readonly placeholder="Value" />
-  </div>
-</div>
-
-
-
-
-<div id="toastContainer"></div>
-<div class="review-section">
-  <div id="leftIcons" class="icon-group left"></div>
-  <button class="reviewBtn" onclick="reviewTrade()">Compare</button>
-  <div id="rightIcons"  class="icon-group right"></div>
-</div>
-
-
-</div>
-
-<br><br>
-
-<script>
-
 function showToast(message, duration=4000){
   const container = document.getElementById('toastContainer');
   const toast = document.createElement('div'); toast.className='toast';
@@ -434,13 +93,11 @@ function lookupValue(kit, quality) {
     console.log("Dye found:", kit, "Value:", dyeValues[kit]);
     return dyeValues[kit];
   }
-
   const key = `${kit}|${quality}`;
   if (valueTable.hasOwnProperty(key)) {
     console.log("Kit found:", key, "Value:", valueTable[key]);
     return valueTable[key];
   }
-
   console.warn("Value not found for kit:", kit, "quality:", quality);
   return 0;
 }
@@ -458,19 +115,15 @@ function createQualityDropdown(){
 
 function addKitRow(containerId){
   const container = document.getElementById(containerId);
-  
   if(container.querySelectorAll('.kitRow').length >= 7){
     showToast("Max slots reached!");
     return; 
-  }
-  
+  }  
   const row = document.createElement('div'); 
   row.className='kitRow';
-
-const kitSel = document.createElement('select');
-kitSel.className = 'kitSelect';
-
-const Categories = {
+  const kitSel = document.createElement('select');
+  kitSel.className = 'kitSelect';
+  const Categories = {
   "Battle Kits": [
     "Cold Attack",
     "Electric Attack",
@@ -517,15 +170,13 @@ const Categories = {
     "Bonus Received Heal"
   ],
 	"Dyes": [ "White-EBEBEB", "Cream-Beige-FFD7C1", "Cream-Beige-FED7C2", "Pink-F886E7", "Cyan-Turquoise-13A4B7", "Atlantic-Dark-Teal-1F6074", "Sapphire-Blue-304B9C", "Violet-Purple-7841A2", "Violet-Purple-8B4BBC", "Dark-Fuchsia-7D3973", "Dark-Fuchsia-914285", "Maroon-A2132D", "Carmine-Cherry-Red-D63343", "Vermilion-Carrot-Red-F25A28", "Light-Orange-E88133", "Dark-Yellow-F6C549", "Dark-Yellow-F5C455", "Lemon-Yellow-D1DF3B", "Lemon-Yellow-D1DD4B", "Spring-Green-2CBE69", "Green-4CA241", "Green-4FA146", "Dark-Green-62773E", "Dark-Green-5B6E3D", "Dark-Green-5E733D", "Olive-A2A013", "Light-Brown-A27B13", "Brown-81583E", "Earth-Reddish-Brown-823733", "Earth-Reddish-Brown-7A3633", "Claret-Pinkish-Brown-87465B", "Claret-Pinkish-Brown-9D5169", "Black-303030", "Gray-70755E" ]
-};
-
-for (const [label, options] of Object.entries(Categories)) {
+  };
+  
+  for (const [label, options] of Object.entries(Categories)) {
   const group = document.createElement('optgroup');
   group.label = label;
-  
-options.forEach(optionText => {
+  options.forEach(optionText => {
   const o = document.createElement('option');
-  
   if (label === "Dyes") {
     const parts = optionText.split('-');
     const displayText = parts.slice(0, -1).join(' ') + ' #' + parts[parts.length - 1];
@@ -533,24 +184,18 @@ options.forEach(optionText => {
     o.text = displayText; 
   } else {
     o.value = o.text = optionText;
-  }
-  
+  } 
   group.appendChild(o);
-});
-
-
-  
+  });
   kitSel.appendChild(group);
 }
 
-
   const qualSel = createQualityDropdown();
   kitSel.addEventListener('change', () => {
-    const selectedOption = kitSel.selectedOptions[0];
-    const parentGroup = selectedOption?.parentElement?.label || "";
-    const isDye = parentGroup === "Dyes";
-
-    if (isDye) {
+  const selectedOption = kitSel.selectedOptions[0];
+  const parentGroup = selectedOption?.parentElement?.label || "";
+  const isDye = parentGroup === "Dyes";
+  if (isDye) {
       qualSel.value = "NQ";
       qualSel.disabled = true;
     } else {
@@ -559,24 +204,21 @@ options.forEach(optionText => {
   });
 
   const amt = document.createElement('select');
-	amt.className = 'amountInput';
-	for (let i = 1; i <= 10; i++) {
-    const option = document.createElement('option');
-    option.value = i;
-    option.text = i;
-    amt.appendChild(option);
+  amt.className = 'amountInput';
+  for (let i = 1; i <= 10; i++) {
+  const option = document.createElement('option');
+  option.value = i;
+  option.text = i;
+  amt.appendChild(option);
 }
-
 
   const rem = document.createElement('button'); 
   rem.type='button'; 
   rem.textContent='x'; 
   rem.className='smallBtn'; 
   rem.onclick = ()=>row.remove();
-
   row.append(kitSel, qualSel, amt, rem);
   container.appendChild(row);
-
   kitSel.dispatchEvent(new Event('change'));
 }
 
@@ -584,12 +226,9 @@ function computeValueForRow(row){
   const kit = row.querySelector('.kitSelect').value;
   const quality = row.querySelector('.qualitySelect').value;
   const amount = parseFloat(row.querySelector('.amountInput').value) || 1;
-
   let baseValue = lookupValue(kit, quality);
   return baseValue * amount;
 }
-
-
 
 function computeValue(containerId){
   const container = document.getElementById(containerId);
@@ -611,7 +250,6 @@ function displayIcons(containerId, iconContainerId) {
   const container = document.getElementById(containerId);
   const iconContainer = document.getElementById(iconContainerId);
   iconContainer.innerHTML = "";
-
   const rows = Array.from(container.querySelectorAll('.kitRow'));
   const isLeft = iconContainer.classList.contains('left');
   let iconIndex = 0;
@@ -622,47 +260,38 @@ function displayIcons(containerId, iconContainerId) {
   const qualitySel = row.querySelector('.qualitySelect');
   const amtInput = row.querySelector('.amountInput');
   const amount = parseInt(amtInput?.value) || 1;
-
   const kit = kitSel.value;
   const quality = qualitySel.value;
-
-	const isDye = dyeValues.hasOwnProperty(kit);
-	const iconFile = isDye ? `${kit}.png` : `${kit} ${quality}.png`;
-	const iconSrc = `icons/${iconFile}`;
-
+  const isDye = dyeValues.hasOwnProperty(kit);
+  const iconFile = isDye ? `${kit}.png` : `${kit} ${quality}.png`;
+  const iconSrc = `icons/${iconFile}`;
 
   for (let j = 0; j < amount; j++) {
     const img = document.createElement('img');
     img.src = iconSrc;
     img.alt = isDye ? kit : `${kit} (${quality})`;
-
-
     if (isDye) {
       img.style.background = "transparent";
       img.style.border = "none";
     }
-
-    if (isLeft) iconContainer.prepend(img);
-    else iconContainer.appendChild(img);
-
-    const appearDelay = 250 * iconIndex;
-    setTimeout(() => img.classList.add('show'), appearDelay);
-    iconIndex++;
+   if (isLeft) iconContainer.prepend(img);
+   else iconContainer.appendChild(img);
+   const appearDelay = 250 * iconIndex;
+   setTimeout(() => img.classList.add('show'), appearDelay);
+   iconIndex++;
   }
-});
-
+  
+ });
 
   const children = Array.from(iconContainer.children);
   const fadeOutAnimationTime = 600;
   const baseDisappearDelay = 3500; 
-
   const orderedChildren = isLeft ? children : children.slice().reverse();
 
   orderedChildren.forEach((img, i) => {
-    const disappearDelay = baseDisappearDelay + 250 * i;
-    if (disappearDelay > maxDelay) maxDelay = disappearDelay;
-
-    setTimeout(() => {
+  const disappearDelay = baseDisappearDelay + 250 * i;
+  if (disappearDelay > maxDelay) maxDelay = disappearDelay;
+  setTimeout(() => {
       img.classList.remove('show');
       img.classList.add('hide');
     }, disappearDelay);
@@ -671,31 +300,28 @@ function displayIcons(containerId, iconContainerId) {
   return maxDelay + fadeOutAnimationTime;
 }
 
-
-
 function reviewTrade() {
   const leftDuration = displayIcons('leftRowsContainer', 'leftIcons');
   const rightDuration = displayIcons('rightRowsContainer', 'rightIcons');
   const totalDelay = Math.max(leftDuration, rightDuration);
 
   setTimeout(() => {
-    const leftVal = computeValue('leftRowsContainer');
-    const rightVal = computeValue('rightRowsContainer');
-    document.getElementById('leftValue').value = leftVal.toFixed(2);
-    document.getElementById('rightValue').value = rightVal.toFixed(2);
-
-    function getTier(v) {
+  const leftVal = computeValue('leftRowsContainer');
+  const rightVal = computeValue('rightRowsContainer');
+  document.getElementById('leftValue').value = leftVal.toFixed(2);
+  document.getElementById('rightValue').value = rightVal.toFixed(2);
+  
+  function getTier(v) {
       if (v >= 0.5) return "high";
       if (v >= 0.2) return "medium";
       return "low";
-    }
-
-    const leftTier = getTier(leftVal);
-    const rightTier = getTier(rightVal);
-    const ratio = Math.min(leftVal, rightVal) / Math.max(leftVal, rightVal);
-    let verdict = '';
-
-    if (leftVal === 0 || rightVal === 0) {
+  }
+  
+  const leftTier = getTier(leftVal);
+  const rightTier = getTier(rightVal);
+  const ratio = Math.min(leftVal, rightVal) / Math.max(leftVal, rightVal);
+  let verdict = '';
+  if (leftVal === 0 || rightVal === 0) {
       verdict = "No kits selected!";
     } else if (leftTier !== rightTier) {
       verdict = (leftVal === rightVal) ? "🟢 Perfect Trade!" : "🔴 Not Recommended.";
@@ -703,20 +329,14 @@ function reviewTrade() {
       verdict = (ratio >= 0.8) ? "🟢 Perfect Trade!" :
                 (ratio >= 0.6) ? "🟡 Okay Trade..." :
                 "🔴 Not Recommended.";
-    }
-
-    showToast(`Trade Tip:<br>${verdict}`, 5000);
-
-  }, totalDelay + 100); 
+  }
+  showToast(`Trade Tip:<br>${verdict}`, 5000);
+  }, totalDelay + 100);
+  
 }
 
 window.addEventListener('DOMContentLoaded', ()=>{
   addKitRow('leftRowsContainer');
-  addKitRow('rightRowsContainer');
-  
-  showToast("Early version:<br>⚠️ Values may vary.", 5000);
+  addKitRow('rightRowsContainer');  
+  showToast("Note:<br>⚠️ Values may vary.", 5000);
 });
-</script>
-<div class="footer">Made by Rapidegaming#0915</div>
-</body>
-</html>
