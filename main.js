@@ -9,14 +9,14 @@ function showToast(message, duration=4000){
 }
 
 const valueTable = {
-  "Cold Attack|NQ": 0.25, "Cold Attack|GQ": 0.50, "Cold Attack|HQ": 0.75, "Cold Attack|EQ": 1.00,
-  "Electric Attack|NQ": 0.25, "Electric Attack|GQ": 0.50, "Electric Attack|HQ": 0.75, "Electric Attack|EQ": 1.00,
+  "Cold Attack|NQ": 0.12, "Cold Attack|GQ": 1.75, "Cold Attack|HQ": 2.75, "Cold Attack|EQ": 3.75,
+  "Electric Attack|NQ": 0.75, "Electric Attack|GQ": 1.75, "Electric Attack|HQ": 2.75, "Electric Attack|EQ": 3.75,
   "Fire Attack|NQ": 0.90, "Fire Attack|GQ": 1.90, "Fire Attack|HQ": 3.90, "Fire Attack|EQ": 11.90,
   "Toxic Attack|NQ": 0.75, "Toxic Attack|GQ": 1.75, "Toxic Attack|HQ": 2.75, "Toxic Attack|EQ": 3.75,
-  "Cold Passive|NQ": 0.25, "Cold Passive|GQ": 0.50, "Cold Passive|HQ": 0.75, "Cold Passive|EQ": 1.00,
-  "Electric Passive|NQ": 0.12, "Electric Passive|GQ": 0.25, "Electric Passive|HQ": 0.50, "Electric Passive|EQ": 1.00,
-  "Fire Passive|NQ": 0.25, "Fire Passive|GQ": 0.50, "Fire Passive|HQ": 0.75, "Fire Passive|EQ": 1.00,
-  "Toxic Passive|NQ": 0.25, "Toxic Passive|GQ": 0.50, "Toxic Passive|HQ": 0.75, "Toxic Passive|EQ": 1.00,
+  "Cold Passive|NQ": 0.12, "Cold Passive|GQ": 0.75, "Cold Passive|HQ": 1.75, "Cold Passive|EQ": 2.75,
+  "Electric Passive|NQ": 0.12, "Electric Passive|GQ": 0.75, "Electric Passive|HQ": 1.75, "Electric Passive|EQ": 2.75,
+  "Fire Passive|NQ": 0.12, "Fire Passive|GQ": 0.75, "Fire Passive|HQ": 1.75, "Fire Passive|EQ": 2.75,
+  "Toxic Passive|NQ": 0.12, "Toxic Passive|GQ": 0.75, "Toxic Passive|HQ": 1.75, "Toxic Passive|EQ": 2.75,
   "Physical Damage|NQ": 0.12, "Physical Damage|GQ": 0.50, "Physical Damage|HQ": 1.00, "Physical Damage|EQ": 2.00,
   "Damage|NQ": 0.6, "Damage|GQ": 0.12, "Damage|HQ": 0.18, "Damage|EQ": 0.24,
   "Critical Damage|NQ": 0.12, "Critical Damage|GQ": 0.25, "Critical Damage|HQ": 0.50, "Critical Damage|EQ": 1.00,
