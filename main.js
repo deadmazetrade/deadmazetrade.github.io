@@ -26,14 +26,14 @@ const valueTable = {
   "Bonus Damage on Slowed Targets|NQ": 0.10, "Bonus Damage on Slowed Targets|GQ": 0.20, "Bonus Damage on Slowed Targets|HQ": 0.50, "Bonus Damage on Slowed Targets|EQ": 1.00,
   
   "Blind|NQ": 0.20, "Blind|GQ": 0.40, "Blind|HQ": 2.00, "Blind|EQ": 10.00,
-  "Heal|NQ": 0.15, "Heal|GQ": 0.30, "Heal|HQ": 0.45, "Heal|EQ": 0.60,
+  "Heal|NQ": 0.10, "Heal|GQ": 0.25, "Heal|HQ": 0.40, "Heal|EQ": 0.55,
   "Move Speed|NQ": 0.10, "Move Speed|GQ": 0.20, "Move Speed|HQ": 0.50, "Move Speed|EQ": 1.00,
   "Projection +|NQ": 0.00, "Projection +|GQ": 0.00, "Projection +|HQ": 0.00, "Projection +|EQ": 0.00,
   "Projection -|NQ": 0.00, "Projection -|GQ": 0.00, "Projection -|HQ": 0.00, "Projection -|EQ": 0.00,
   "Root|NQ": 0.25, "Root|GQ": 0.50, "Root|HQ": 0.75, "Root|EQ": 1.00,
   "Stun|NQ": 0.25, "Stun|GQ": 0.50, "Stun|HQ": 0.75, "Stun|EQ": 1.00,
   "Vampiric|NQ": 0.20, "Vampiric|GQ": 0.40, "Vampiric|HQ": 2.00, "Vampiric|EQ": 10.00,
-  "Healing Skill|NQ": 0.15, "Healing Skill|GQ": 0.30, "Healing Skill|HQ": 0.45, "Healing Skill|EQ": 0.60,
+  "Healing Skill|NQ": 0.10, "Healing Skill|GQ": 0.25, "Healing Skill|HQ": 0.40, "Healing Skill|EQ": 0.55,
   "Stamina Gain|NQ": 0.20, "Stamina Gain|GQ": 0.40, "Stamina Gain|HQ": 1.00, "Stamina Gain|EQ": 2.00,
   
   "Counter Attack|NQ": 0.10, "Counter Attack|GQ": 0.20, "Counter Attack|HQ": 0.75, "Counter Attack|EQ": 1.00,
