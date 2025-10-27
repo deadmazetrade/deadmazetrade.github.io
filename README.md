@@ -2,5 +2,5 @@
 
 - Website: https://deadmazetrade.github.io/
 - Developer: Rapidegaming#0915
-- Version: 1.12
+- Version: 1.13
 - Submit Feedback: https://forms.gle/kq9Rm7Ye9Jym7WvJ6
