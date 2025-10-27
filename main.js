@@ -34,7 +34,7 @@ const valueTable = {
   "Stun|NQ": 0.25, "Stun|GQ": 0.50, "Stun|HQ": 0.75, "Stun|EQ": 1.00,
   "Vampiric|NQ": 0.20, "Vampiric|GQ": 0.40, "Vampiric|HQ": 2.00, "Vampiric|EQ": 10.00,
   "Healing Skill|NQ": 0.20, "Healing Skill|GQ": 0.40, "Healing Skill|HQ": 0.75, "Healing Skill|EQ": 1.00,
-  "Stamina Gain|NQ": 0.10, "Stamina Gain|GQ": 0.20, "Stamina Gain|HQ": 0.50, "Stamina Gain|EQ": 1.00,
+  "Stamina Gain|NQ": 0.20, "Stamina Gain|GQ": 0.40, "Stamina Gain|HQ": 1.00, "Stamina Gain|EQ": 2.00,
   
   "Counter Attack|NQ": 0.10, "Counter Attack|GQ": 0.20, "Counter Attack|HQ": 0.75, "Counter Attack|EQ": 1.00,
   "Shield|NQ": 1.00,  "Shield|GQ": 2.00,  "Shield|HQ": 10.00,  "Shield|EQ": 50.00,
@@ -94,7 +94,6 @@ function lookupValue(kit, quality) {
   const key = `${kit}|${quality}`;
   const tableVal = valueTable[key];
   if (tableVal !== undefined) return tableVal;
-  console.warn("Value not found for kit:", kit, "quality:", quality);
   return 0;
 }
 
