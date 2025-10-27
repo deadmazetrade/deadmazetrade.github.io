@@ -18,7 +18,7 @@ const valueTable = {
   "Fire Passive|NQ": 0.10, "Fire Passive|GQ": 0.75, "Fire Passive|HQ": 1.75, "Fire Passive|EQ": 2.75,
   "Toxic Passive|NQ": 0.10, "Toxic Passive|GQ": 0.75, "Toxic Passive|HQ": 1.75, "Toxic Passive|EQ": 2.75,
   "Physical Damage|NQ": 0.10, "Physical Damage|GQ": 0.50, "Physical Damage|HQ": 1.00, "Physical Damage|EQ": 2.00,
-  "Damage|NQ": 0.5, "Damage|GQ": 0.10, "Damage|HQ": 0.15, "Damage|EQ": 0.20,
+  "Damage|NQ": 0.05, "Damage|GQ": 0.10, "Damage|HQ": 0.15, "Damage|EQ": 0.20,
   "Critical Damage|NQ": 0.10, "Critical Damage|GQ": 0.20, "Critical Damage|HQ": 0.50, "Critical Damage|EQ": 1.00,
   "Critical Chance|NQ": 0.10, "Critical Chance|GQ": 0.20, "Critical Chance|HQ": 0.50, "Critical Chance|EQ": 1.00,
   "Combo Damage|NQ": 0.10, "Combo Damage|GQ": 0.20, "Combo Damage|HQ": 0.50, "Combo Damage|EQ": 1.00,
