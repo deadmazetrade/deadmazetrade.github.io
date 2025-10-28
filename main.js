@@ -22,7 +22,7 @@ const valueTable = {
   "Critical Damage|NQ": 0.10, "Critical Damage|GQ": 0.20, "Critical Damage|HQ": 0.50, "Critical Damage|EQ": 1.00, 
   "Critical Chance|NQ": 0.10, "Critical Chance|GQ": 0.20, "Critical Chance|HQ": 0.50, "Critical Chance|EQ": 1.00, 
   "Combo Damage|NQ": 0.10, "Combo Damage|GQ": 0.20, "Combo Damage|HQ": 0.50, "Combo Damage|EQ": 1.00, 
-  "Bonus Damage on Stunned Targets|NQ": 0.20, "Bonus Damage on Stunned Targets|GQ": 0.40, "Bonus Damage on Stunned Targets|HQ": 2.00, "Bonus Damage on Stunned Targets|EQ": 25.00,
+  "Bonus Damage on Stunned Targets|NQ": 0.20, "Bonus Damage on Stunned Targets|GQ": 0.40, "Bonus Damage on Stunned Targets|HQ": 5.00, "Bonus Damage on Stunned Targets|EQ": 25.00,
   "Bonus Damage on Slowed Targets|NQ": 0.10, "Bonus Damage on Slowed Targets|GQ": 0.20, "Bonus Damage on Slowed Targets|HQ": 0.50, "Bonus Damage on Slowed Targets|EQ": 1.00, 
   
   "Blind|NQ": 0.20, "Blind|GQ": 0.40, "Blind|HQ": 5.00, "Blind|EQ": 25.00,
