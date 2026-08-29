@@ -45,7 +45,6 @@ const valueTable = {
   "Resistance|NQ": 0.10, "Resistance|GQ": 0.20, "Resistance|HQ": 0.50, "Resistance|EQ": 1.00, 
   //"Physical Resistance|NQ": 0.25, "Physical Resistance|GQ": 0.50, "Physical Resistance|HQ": 0.75, "Physical Resistance|EQ": 1.00, 
   "Physical Resistance|NQ": 0.10, "Physical Resistance|GQ": 0.20, "Physical Resistance|HQ": 1.00, "Physical Resistance|EQ": 5.00, 
-
   "Fire Resistance|NQ": 0.10, "Fire Resistance|GQ": 0.20, "Fire Resistance|HQ": 0.50, "Fire Resistance|EQ": 1.00, 
   "Cold Resistance|NQ": 0.00, "Cold Resistance|GQ": 0.00, "Cold Resistance|HQ": 0.00, "Cold Resistance|EQ": 0.00, 
   "Toxic Resistance|NQ": 0.10, "Toxic Resistance|GQ": 0.20, "Toxic Resistance|HQ": 0.50, "Toxic Resistance|EQ": 1.00,
