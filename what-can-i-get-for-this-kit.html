@@ -1345,9 +1345,7 @@ function renderResults(kitName, quality) {
   // Initial scroll indicator check
   setTimeout(updateScrollIndicator, 100);
 
-  setTimeout(() => {
-    showToast(`💡 Click a kit to see what you could get for it.`, 4000);
-  }, 600);
+  
 
   window.__whatCanGet = {
     selectedKit: () => selectedKit,
