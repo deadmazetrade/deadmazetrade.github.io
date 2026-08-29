@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dead Maze Trading Calculator — What Can I Get For This Kit?</title>
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Additional styles specific to what-can-get.html — minimal additions */
+  
+  .what-can-get-layout {
+    display: flex;
+    gap: 16px;
+    max-width: 1400px;
+    margin: 10px auto;
+    padding: 0 8px 0 0;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  /* LEFT PANEL — Kit Selector with Quality Dropdown */
+  .selector-panel {
+    flex: 0 0 520px;
+    min-width: 460px;
+    max-height: 78vh;
+    overflow-y: auto;
+    background: rgba(34,34,34,0.5);
+    backdrop-filter: blur(5px);
+    border-radius: 16px;
+    padding: 12px 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+    position: sticky;
+    top: 10px;
+    margin-left: 0;
+  }
+
+  .selector-panel::-webkit-scrollbar {
+    width: 3px;
+  }
+  .selector-panel::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .selector-panel::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.2);
+    border-radius: 3px;
+  }
+
+  .selector-panel h3 {
+    margin: 0 0 8px 0;
+    font-size: 0.65em;
+    color: #ffffff;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding-bottom: 6px;
+    letter-spacing: 1px;
+  }
+
+  /* Selected kit display row */
+  .selected-kit-display-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0;
+    margin-bottom: 10px;
+    padding: 4px 8px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 32px;
+    overflow: hidden;
+  }
+
+  /* Quality controls container - SLOW slide using transform */
+  .quality-controls {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-shrink: 0;
+    transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translateX(0);
+  }
+
+  /* When kit info is visible, slide the dropdown/label container left */
+  .selected-kit-info.visible ~ .quality-controls {
+    transform: translateX(0);
+  }
+
+  .quality-controls label {
+    font-size: 0.7em;
+    color: #ffffff;
+    flex-shrink: 0;
+    padding: 0 2px;
+    transition: none;
+  }
+
+  .quality-controls select {
+    background: rgba(255,255,255,0.1);
+    color: #eee;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 3px;
+    padding: 2px 4px;
+    font-size: 0.7em;
+    cursor: pointer;
+    outline: none;
+    height: 20px;
+    width: 50px;
+    flex-shrink: 0;
+    margin: 0 4px;
+    transition: none;
+  }
+
+  .quality-controls select option {
+    background: #222;
+    color: #eee;
+  }
+
+  /* Kit info - slides in between dropdown and input */
+  .selected-kit-info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                margin 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    margin: 0;
+  }
+
+  .selected-kit-info.visible {
+    max-width: 300px;
+    opacity: 1;
+    margin: 0 4px;
+  }
+
+  .selected-kit-info .selected-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    object-fit: contain;
+    flex-shrink: 0;
+    opacity: 0;
+    transform: scale(0.7);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s;
+  }
+
+  .selected-kit-info.visible .selected-icon {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .selected-kit-info .selected-name {
+    font-size: 0.7em;
+    color: #aaa;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.15s;
+    min-width: 0;
+  }
+
+  .selected-kit-info.visible .selected-name {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .selected-kit-info .selected-name strong {
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .selected-kit-info .selected-name .tag {
+    color: #888;
+    font-size: 0.9em;
+  }
+
+  /* Input box - stays fixed at the far right */
+  .quality-controls .value-input {
+    background: #1a1a1a;
+    border: 1px solid #444;
+    border-radius: 3px;
+    color: #eee;
+    font-size: 0.7em;
+    padding: 2px 6px;
+    width: 50px;
+    text-align: center;
+    pointer-events: none;
+    height: 20px;
+    flex-shrink: 0;
+    margin-left: 4px;
+    transition: none;
+  }
+
+  .selector-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
+    gap: 3px;
+    justify-items: center;
+    background-image: 
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 56px 56px;
+    background-position: -1px -1px;
+  }
+
+  .kit-selector-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3px 2px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.12s ease;
+    border: 2px solid transparent;
+    width: 100%;
+    min-width: 0;
+    aspect-ratio: 1;
+    justify-content: center;
+    background: transparent;
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+
+  .kit-selector-item:hover {
+    background: rgba(255,255,255,0.08);
+    transform: scale(1.05);
+    z-index: 2;
+  }
+
+  .kit-selector-item.selected {
+    background: rgba(50,205,50,0.18);
+    border-color: #32CD32;
+    transform: scale(1.03);
+    z-index: 2;
+    border-radius: 6px;
+  }
+
+  .kit-selector-item img {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.06);
+    object-fit: contain;
+    pointer-events: none;
+    transition: transform 0.12s ease;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-drag: none;
+    user-drag: none;
+  }
+
+  .kit-selector-item:hover img {
+    transform: scale(1.06);
+  }
+
+  .kit-selector-item.selected img {
+    transform: scale(1.04);
+  }
+
+  /* RIGHT PANEL — Results with scrollbar */
+  .results-panel {
+    flex: 0 0 420px;
+    min-width: 360px;
+    max-width: 420px;
+    background: rgba(34,34,34,0.5);
+    backdrop-filter: blur(5px);
+    border-radius: 16px;
+    padding: 16px 18px;
+    border: 1px solid rgba(255,255,255,0.2);
+    min-height: 300px;
+    max-height: 78vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .results-panel h3 {
+    margin: 0 0 12px 0;
+    font-size: 0.95em;
+    color: #ffffff;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 10px;
+    flex-shrink: 0;
+  }
+
+  /* Scrollable results container */
+  #resultsContent {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 8px;
+    padding-bottom: 4px;
+    scroll-behavior: smooth;
+  }
+
+  #resultsContent::-webkit-scrollbar {
+    width: 8px;
+  }
+  #resultsContent::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.08);
+    border-radius: 6px;
+  }
+  #resultsContent::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.3);
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.1);
+    min-height: 40px;
+  }
+  #resultsContent::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.45);
+  }
+
+/* Scroll indicator - OVERLAY at bottom with glassy style */
+.scroll-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.75em;
+  color: rgba(255,255,255,0.6);  /* Changed from 0.15 to 0.6 for brighter white */
+  padding: 20px 0 0 0;
+  margin: 0;
+  line-height: 1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  user-select: none;
+  z-index: 5;
+}
+
+  .scroll-indicator.visible {
+    opacity: 1;
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    color: #ffffff;
+    font-size: 0.95em;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .empty-state .icon-hint {
+    font-size: 2.4em;
+    margin-bottom: 12px;
+    opacity: 0.4;
+  }
+
+  /* Result Cards */
+  .result-card {
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 4px 10px;
+    margin-bottom: 4px;
+    border-left: 4px solid #555;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    color: #222;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 28px;
+    opacity: 0;
+    transform: translateX(60px);
+    animation: slideLeftIn 0.6s ease forwards;
+    position: relative;
+    padding-right: 50px;
+  }
+
+  .result-card:last-child {
+    margin-bottom: 0;
+  }
+
+  .result-card .status-emoji {
+    font-size: 0.9em;
+    flex-shrink: 0;
+  }
+
+  .result-card .status-label {
+    font-size: 0.65em;
+    font-weight: 600;
+    color: #333;
+    flex-shrink: 0;
+  }
+
+  .result-card .status-label.perfect { color: #2d8f2d; }
+  .result-card .status-label.okay { color: #b8960f; }
+  .result-card .status-label.bad { color: #b33b3b; }
+
+  .result-card .result-kits {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 2px 6px;
+    overflow: hidden;
+    flex: 1;
+  }
+
+  .result-card .result-kit-item {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    flex-shrink: 0;
+  }
+
+  .result-card .result-kit-item img {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    background: rgba(0,0,0,0.04);
+    border: 1px solid rgba(0,0,0,0.06);
+    object-fit: contain;
+  }
+
+  .result-card .result-kit-item .rki-name {
+    font-size: 0.6em;
+    color: #333;
+    white-space: nowrap;
+  }
+
+  .result-card .result-kit-item .rki-plus {
+    color: #999;
+    font-size: 0.7em;
+    margin: 0 1px;
+  }
+
+  .result-card .result-value {
+    font-size: 0.6em;
+    color: #eee;
+    background: #1a1a1a;
+    border: 1px solid #444;
+    border-radius: 3px;
+    padding: 0px 8px;
+    font-weight: 600;
+    flex-shrink: 0;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    min-width: 30px;
+    justify-content: center;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .result-card.status-perfect { border-left-color: #32CD32; }
+  .result-card.status-okay { border-left-color: #f0c040; }
+  .result-card.status-bad { border-left-color: #cc4444; }
+
+  @keyframes slideLeftIn {
+    0% {
+      opacity: 0;
+      transform: translateX(60px);
+    }
+    60% {
+      opacity: 0.4;
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* Responsive */
+  @media (max-width: 1100px) {
+    .what-can-get-layout {
+      max-width: 100%;
+      gap: 12px;
+      padding: 0 8px;
+    }
+    .selector-panel {
+      flex: 0 0 400px;
+      min-width: 340px;
+    }
+    .results-panel {
+      flex: 0 0 340px;
+      min-width: 280px;
+      max-width: 340px;
+    }
+    .selector-grid {
+      grid-template-columns: repeat(auto-fill, minmax(46px, 1fr));
+      gap: 3px;
+      background-size: 50px 50px;
+    }
+    .kit-selector-item img {
+      width: 34px;
+      height: 34px;
+    }
+    .results-panel {
+      max-height: 70vh;
+      padding: 14px 14px;
+    }
+  }
+
+  @media (max-width: 820px) {
+    .what-can-get-layout {
+      max-width: 100%;
+      gap: 10px;
+      padding: 0 4px;
+    }
+    .selector-panel {
+      flex: 0 0 280px;
+      min-width: 220px;
+      padding: 8px 6px;
+    }
+    .results-panel {
+      flex: 0 0 260px;
+      min-width: 200px;
+      max-width: 260px;
+      padding: 12px 12px;
+    }
+    .selector-grid {
+      grid-template-columns: repeat(auto-fill, minmax(42px, 1fr));
+      gap: 2px;
+      background-size: 46px 46px;
+    }
+    .kit-selector-item img {
+      width: 30px;
+      height: 30px;
+    }
+    .kit-selector-item {
+      padding: 2px 1px;
+    }
+    .selected-kit-display-row {
+      gap: 0;
+      padding: 3px 6px;
+      min-height: 28px;
+    }
+    .selected-kit-info .selected-icon {
+      width: 20px;
+      height: 20px;
+    }
+    .selected-kit-info .selected-name {
+      font-size: 0.6em;
+    }
+    .quality-controls select {
+      width: 40px;
+      font-size: 0.6em;
+      height: 18px;
+    }
+    .quality-controls .value-input {
+      width: 40px;
+      font-size: 0.6em;
+      height: 18px;
+    }
+    .quality-controls label {
+      font-size: 0.6em;
+    }
+    .results-panel {
+      max-height: 60vh;
+      padding: 12px 12px;
+    }
+    #resultsContent::-webkit-scrollbar {
+      width: 6px;
+    }
+    .scroll-indicator {
+      font-size: 0.65em;
+    }
+    .result-card {
+      padding: 3px 8px;
+      min-height: 24px;
+      gap: 4px;
+      transform: translateX(40px);
+      animation-duration: 0.5s;
+      padding-right: 40px;
+    }
+    .result-card .result-kit-item img {
+      width: 16px;
+      height: 16px;
+    }
+    .result-card .result-kit-item .rki-name {
+      font-size: 0.55em;
+    }
+    .result-card .result-value {
+      font-size: 0.55em;
+      padding: 0px 6px;
+      height: 18px;
+      min-width: 24px;
+      right: 6px;
+    }
+    .result-card .status-label {
+      font-size: 0.6em;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .what-can-get-layout {
+      flex-direction: column;
+      padding: 0 4px;
+      gap: 10px;
+      max-width: 100%;
+    }
+    .selector-panel {
+      flex: none;
+      width: 100%;
+      max-height: 200px;
+      position: static;
+      padding: 6px 4px;
+      margin-left: 0;
+      min-width: unset;
+    }
+    .results-panel {
+      flex: none;
+      width: 100%;
+      max-width: 100%;
+      min-width: unset;
+      max-height: 50vh;
+      padding: 10px 10px;
+    }
+    .selector-panel h3 {
+      font-size: 0.55em;
+      margin-bottom: 4px;
+      padding-bottom: 4px;
+    }
+    .selected-kit-display-row {
+      margin-bottom: 6px;
+      padding: 2px 6px;
+      min-height: 24px;
+    }
+    .selected-kit-info .selected-icon {
+      width: 18px;
+      height: 18px;
+    }
+    .selected-kit-info .selected-name {
+      font-size: 0.55em;
+    }
+    .quality-controls select {
+      font-size: 0.6em;
+      height: 18px;
+      width: 36px;
+      padding: 1px 3px;
+    }
+    .quality-controls .value-input {
+      font-size: 0.6em;
+      height: 18px;
+      width: 36px;
+      padding: 1px 3px;
+    }
+    .quality-controls label {
+      font-size: 0.6em;
+    }
+    .selector-grid {
+      grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+      gap: 2px;
+      background-size: 48px 48px;
+    }
+    .kit-selector-item img {
+      width: 32px;
+      height: 32px;
+    }
+    .results-panel {
+      min-height: 200px;
+      max-height: 50vh;
+      padding: 10px 10px;
+    }
+    #resultsContent {
+      padding-right: 4px;
+    }
+    #resultsContent::-webkit-scrollbar {
+      width: 6px;
+    }
+    .scroll-indicator {
+      font-size: 0.55em;
+    }
+    .result-card {
+      padding: 3px 6px;
+      min-height: 22px;
+      gap: 3px;
+      border-left-width: 3px;
+      transform: translateX(30px);
+      animation-duration: 0.4s;
+      padding-right: 34px;
+    }
+    .result-card .result-kit-item img {
+      width: 14px;
+      height: 14px;
+    }
+    .result-card .result-kit-item .rki-name {
+      font-size: 0.5em;
+    }
+    .result-card .result-value {
+      font-size: 0.5em;
+      padding: 0px 4px;
+      height: 16px;
+      min-width: 20px;
+      right: 4px;
+    }
+    .result-card .status-label {
+      font-size: 0.55em;
+    }
+    .result-card .status-emoji {
+      font-size: 0.8em;
+    }
+    .result-card .result-kits {
+      gap: 1px 4px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .selector-panel {
+      max-height: 160px;
+      padding: 4px 2px;
+    }
+    .selector-grid {
+      grid-template-columns: repeat(auto-fill, minmax(38px, 1fr));
+      gap: 2px;
+      background-size: 42px 42px;
+    }
+    .kit-selector-item img {
+      width: 28px;
+      height: 28px;
+    }
+    .kit-selector-item {
+      padding: 1px;
+    }
+    .results-panel {
+      padding: 6px 6px;
+      max-height: 40vh;
+    }
+    .scroll-indicator {
+      font-size: 0.45em;
+    }
+    .result-card {
+      padding: 2px 4px;
+      min-height: 20px;
+      transform: translateX(20px);
+      animation-duration: 0.35s;
+      padding-right: 28px;
+    }
+    .result-card .result-kit-item img {
+      width: 12px;
+      height: 12px;
+    }
+    .result-card .result-value {
+      font-size: 0.5em;
+      padding: 0px 3px;
+      height: 14px;
+      min-width: 16px;
+      right: 3px;
+    }
+  }
+</style>
+</head>
+<body>
+<br>
+<h2>What Can I Get For This Kit?</h2>
+
+<div class="what-can-get-layout">
+  <!-- LEFT: Kit Selector Grid with Quality Dropdown -->
+  <div class="selector-panel" id="kitSelectorPanel">
+    <h3>KITS</h3>
+    
+    <!-- Selected kit display row -->
+    <div class="selected-kit-display-row" id="selectedKitDisplayRow">
+      <!-- Quality controls - label and dropdown slide slowly -->
+      <div class="quality-controls" id="qualityControls">
+        <label for="qualitySelect">Quality</label>
+        <select id="qualitySelect">
+          <option value="NQ">NQ</option>
+          <option value="GQ">GQ</option>
+          <option value="HQ">HQ</option>
+          <option value="EQ">EQ</option>
+        </select>
+        
+        <!-- Kit info slides in between dropdown and input -->
+        <div class="selected-kit-info" id="selectedKitInfo">
+          <img class="selected-icon" id="selectedKitIcon" src="" alt="">
+          <span class="selected-name" id="selectedKitName">
+            <span class="tag">Select a kit</span>
+          </span>
+        </div>
+        
+        <input type="text" class="value-input" id="selectedValueDisplay" value="0.00" readonly>
+      </div>
+    </div>
+    
+    <div class="selector-grid" id="kitSelectorList"></div>
+  </div>
+
+  <!-- RIGHT: Results with scrollable container -->
+  <div class="results-panel" id="resultsPanel">
+    <h3>📊 Possible Trades</h3>
+    <div id="resultsContent">
+      <div class="empty-state">
+        <div class="icon-hint">👆</div>
+        <div>Select a kit to see<br>what you could get for it.</div>
+      </div>
+    </div>
+    <!-- Scroll indicator - OVERLAY at the bottom -->
+    <div class="scroll-indicator" id="scrollIndicator">⮁</div>
+  </div>
+</div>
+
+<div id="toastContainer"></div>
+<div class="footer">Made by Rapidegaming#0915</div>
+
+<script src="main.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  // --- CROSS-QUALITY KITS LIST (DEBUG ONLY - NOT DISPLAYED) ---
+  const CROSS_QUALITY_KITS = [
+    'Heal',
+    'Stun',
+    'Healing Skill',
+    'Regeneration',
+    'Resilience',
+    'Blind',
+    'Vampiric',
+    'Shield'
+  ];
+
+  // --- MOST TRADED KITS LIST (DEBUG ONLY - NOT DISPLAYED) ---
+  const MOST_TRADED_KITS = [
+    'Heal',
+    'Stun',
+    'Healing Skill',
+    'Regeneration',
+    'Resilience',
+    'Blind',
+    'Vampiric',
+    'Shield',
+    'Toxic Attack',
+    'Toxic Passive',
+    'Fire Attack',
+    'Fire Passive',
+    'Electric Attack',
+    'Electric Passive',
+    'Cold Passive',
+    'Counter Attack',
+    'Critical Damage',
+    'Critical Chance'
+  ];
+
+  // --- Categories from main.js (EXCLUDING DYES) ---
+  const Categories = {
+    "Battle Kits": [
+      "Cold Attack", "Electric Attack", "Fire Attack", "Toxic Attack",
+      "Cold Passive", "Electric Passive", "Fire Passive", "Toxic Passive",
+      "Physical Damage", "Damage", "Critical Damage", "Critical Chance",
+      "Combo Damage", "Bonus Damage on Stunned Targets", "Bonus Damage on Slowed Targets"
+    ],
+    "Support Kits": [
+      "Blind", "Heal", "Move Speed", "Projection +", "Projection -",
+      "Root", "Stun", "Vampiric", "Healing Skill", "Stamina Gain"
+    ],
+    "Protection Kits": [
+      "Counter Attack", "Shield", "Resistance", "Physical Resistance",
+      "Electric Resistance", "Fire Resistance", "Cold Resistance", "Toxic Resistance",
+      "Resilience", "Regeneration", "Aggro Bonus", "Dodge", "Max Health",
+      "Bonus Received Heal"
+    ]
+  };
+
+  // Build a flat list of unique kit names (NO DYES)
+  const allKitNames = [];
+  for (const [category, names] of Object.entries(Categories)) {
+    for (const name of names) {
+      if (!allKitNames.includes(name)) {
+        allKitNames.push(name);
+      }
+    }
+  }
+  allKitNames.sort();
+
+  // --- Qualities ---
+  const QUALITIES = ['NQ', 'GQ', 'HQ', 'EQ'];
+
+  // --- State ---
+  let selectedKit = null;
+  let selectedQuality = 'NQ';
+
+  // --- DOM refs ---
+  const selectorList = document.getElementById('kitSelectorList');
+  const resultsContent = document.getElementById('resultsContent');
+  const qualitySelect = document.getElementById('qualitySelect');
+  const selectedValueDisplay = document.getElementById('selectedValueDisplay');
+  const selectedKitIcon = document.getElementById('selectedKitIcon');
+  const selectedKitName = document.getElementById('selectedKitName');
+  const selectedKitInfo = document.getElementById('selectedKitInfo');
+  const scrollIndicator = document.getElementById('scrollIndicator');
+
+  // --- Check if content is scrollable and show/hide indicator ---
+  function updateScrollIndicator() {
+    if (!resultsContent) return;
+    const isScrollable = resultsContent.scrollHeight > resultsContent.clientHeight;
+    scrollIndicator.classList.toggle('visible', isScrollable);
+  }
+
+  // --- Arrow key scrolling ---
+  resultsContent.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      this.scrollBy({ top: 30, behavior: 'smooth' });
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      this.scrollBy({ top: -30, behavior: 'smooth' });
+    }
+  });
+
+  // --- Make resultsContent focusable for arrow keys ---
+  resultsContent.setAttribute('tabindex', '0');
+  resultsContent.setAttribute('role', 'list');
+
+  // --- Update indicator on scroll and resize ---
+  resultsContent.addEventListener('scroll', updateScrollIndicator);
+  window.addEventListener('resize', updateScrollIndicator);
+
+  // --- Helpers ---
+  function isDye(kitName) {
+    return dyeValues.hasOwnProperty(kitName);
+  }
+
+  function getKitValue(kitName, quality) {
+    if (isDye(kitName)) {
+      return dyeValues[kitName] || 0;
+    }
+    const key = kitName + '|' + quality;
+    return valueTable[key] || 0;
+  }
+
+  function getIconPath(kitName, quality) {
+    return 'icons/' + kitName + ' ' + quality + '.png';
+  }
+
+  function getDisplayName(kitName, quality, quantity) {
+    let name = kitName;
+    if (quality) name += ' ' + quality;
+    if (quantity && quantity > 1) name += ' ×' + quantity;
+    return name;
+  }
+
+  // DEBUG ONLY - used for matching logic, not displayed
+  function shouldUseCrossQuality(kitName) {
+    return CROSS_QUALITY_KITS.includes(kitName) || MOST_TRADED_KITS.includes(kitName);
+  }
+
+  // DEBUG ONLY - used for matching logic, not displayed
+  function isMostTradedKit(kitName) {
+    return MOST_TRADED_KITS.includes(kitName);
+  }
+
+  function isQuantityMultipleMatch(quantity) {
+    return quantity === 4 || quantity === 5;
+  }
+
+  function getQualityTier(quality) {
+    const tiers = { 'NQ': 0, 'GQ': 1, 'HQ': 2, 'EQ': 3 };
+    return tiers[quality] || 0;
+  }
+
+  // --- Determine status using UPDATED logic ---
+  function getTradeStatus(selectedValue, resultValue) {
+    if (selectedValue === 0 || resultValue === 0) {
+      return { emoji: '⚪', status: 'neutral', label: 'No value' };
+    }
+
+    function getTier(v) {
+      if (v >= 0.5) return "high";
+      if (v >= 0.2) return "medium";
+      return "low";
+    }
+
+    const leftTier = getTier(selectedValue);
+    const rightTier = getTier(resultValue);
+    const ratio = Math.min(selectedValue, resultValue) / Math.max(selectedValue, resultValue);
+
+    if (leftTier !== rightTier) {
+      return (selectedValue === resultValue) 
+        ? { emoji: '🟢', status: 'perfect', label: 'Perfect' }
+        : { emoji: '🔴', status: 'bad', label: 'Not Recommended' };
+    } else {
+      if (ratio >= 0.6) return { emoji: '🟢', status: 'perfect', label: 'Perfect' };
+      if (ratio >= 0.4) return { emoji: '🟡', status: 'okay', label: 'Okay' };
+      return { emoji: '🔴', status: 'bad', label: 'Not Recommended' };
+    }
+  }
+
+  // --- STANDARD MATCHING: Uses NQ for result kits, quantity 1 only ---
+  function generateStandardMatches(excludeKitName, targetValue) {
+    const results = [];
+    
+    for (const kitName of allKitNames) {
+      if (kitName === excludeKitName) continue;
+      
+      const value = getKitValue(kitName, 'NQ');
+      if (value <= 0) continue;
+      
+      const totalValue = value;
+      const diff = Math.abs(totalValue - targetValue);
+      
+      let maxDiff;
+      if (targetValue > 20) {
+        maxDiff = Math.max(targetValue * 0.15, 2);
+      } else if (targetValue > 5) {
+        maxDiff = Math.max(targetValue * 0.25, 0.8);
+      } else {
+        maxDiff = Math.max(targetValue * 0.4, 0.3);
+      }
+      
+      if (diff <= maxDiff) {
+        results.push({
+          kits: [{ name: kitName, quality: 'NQ', quantity: 1 }],
+          totalValue: totalValue,
+          diff: diff,
+          source: 'standard',
+          isMostTraded: isMostTradedKit(kitName),
+          isQuantityMultiple: false,
+          resultTier: 0
+        });
+      }
+    }
+    
+    return results;
+  }
+
+  // --- CROSS-QUALITY MATCHING: For kits in EITHER list ---
+  function generateCrossQualityMatches(excludeKitName, targetValue, selectedQuality) {
+    const results = [];
+    
+    if (!shouldUseCrossQuality(excludeKitName)) {
+      return results;
+    }
+    
+    const crossQualityKits = allKitNames.filter(name => 
+      name !== excludeKitName && shouldUseCrossQuality(name)
+    );
+    
+    for (const kitName of crossQualityKits) {
+      for (const quality of QUALITIES) {
+        const value = getKitValue(kitName, quality);
+        if (value <= 0) continue;
+        
+        const quantities = [1, 4, 5];
+        
+        for (const qty of quantities) {
+          const totalValue = value * qty;
+          const diff = Math.abs(totalValue - targetValue);
+          
+          let maxDiff;
+          if (targetValue > 20) {
+            maxDiff = Math.max(targetValue * 0.15, 2);
+          } else if (targetValue > 5) {
+            maxDiff = Math.max(targetValue * 0.25, 0.8);
+          } else {
+            maxDiff = Math.max(targetValue * 0.3, 0.2);
+          }
+          
+          if (diff <= maxDiff) {
+            const isQtyMultiple = qty === 4 || qty === 5;
+            
+            results.push({
+              kits: [{ name: kitName, quality: quality, quantity: qty }],
+              totalValue: totalValue,
+              diff: diff,
+              source: 'cross-quality',
+              isMostTraded: isMostTradedKit(kitName),
+              isQuantityMultiple: isQtyMultiple,
+              resultTier: getQualityTier(quality)
+            });
+          }
+        }
+      }
+    }
+    
+    return results;
+  }
+
+  // --- Find best matches combining BOTH layers ---
+  function findCombinations(targetValue, selectedKitName, selectedQuality) {
+    const allResults = [];
+    
+    const standardMatches = generateStandardMatches(selectedKitName, targetValue);
+    for (const match of standardMatches) {
+      allResults.push(match);
+    }
+    
+    const crossQualityMatches = generateCrossQualityMatches(selectedKitName, targetValue, selectedQuality);
+    for (const match of crossQualityMatches) {
+      allResults.push(match);
+    }
+    
+    // Remove duplicates
+    const seen = new Set();
+    const uniqueResults = [];
+    for (const result of allResults) {
+      const key = result.kits.map(k => k.name + '|' + k.quality + '|' + (k.quantity || 1)).join('+');
+      if (!seen.has(key)) {
+        seen.add(key);
+        uniqueResults.push(result);
+      }
+    }
+    
+    // Get status for each result
+    const resultsWithStatus = uniqueResults.map(result => {
+      const statusResult = getTradeStatus(targetValue, result.totalValue);
+      return {
+        ...result,
+        status: statusResult.status,
+        statusEmoji: statusResult.emoji,
+        statusLabel: statusResult.label
+      };
+    });
+    
+    // Split into explicit groups
+    const perfect = [];
+    const okay = [];
+    const bad = [];
+    const neutral = [];
+    
+    for (const result of resultsWithStatus) {
+      if (result.status === 'perfect') perfect.push(result);
+      else if (result.status === 'okay') okay.push(result);
+      else if (result.status === 'bad') bad.push(result);
+      else neutral.push(result);
+    }
+    
+    // Sort each group
+    const sortGroup = (group) => {
+      return group.sort((a, b) => {
+        if (a.diff !== b.diff) return a.diff - b.diff;
+        if (a.isMostTraded !== b.isMostTraded) return a.isMostTraded ? -1 : 1;
+        if (a.isQuantityMultiple !== b.isQuantityMultiple) return a.isQuantityMultiple ? 1 : -1;
+        if (a.isQuantityMultiple && b.isQuantityMultiple) {
+          if (a.resultTier !== b.resultTier) return a.resultTier - b.resultTier;
+        }
+        return 0;
+      });
+    };
+    
+    // Combine in correct order: Perfect → Okay → Bad → Neutral
+    const sortedResults = [
+      ...sortGroup(perfect),
+      ...sortGroup(okay),
+      ...sortGroup(bad),
+      ...sortGroup(neutral)
+    ];
+    
+    return sortedResults.slice(0, 30);
+  }
+
+  // --- Update selected kit display - SLOW dropdown sliding ---
+  function updateSelectedKitDisplay(kitName, quality) {
+    const infoContainer = selectedKitInfo;
+    const icon = selectedKitIcon;
+    const name = selectedKitName;
+    
+    if (!kitName) {
+      infoContainer.classList.remove('visible');
+      icon.src = '';
+      name.innerHTML = '<span class="tag">Select a kit</span>';
+      return;
+    }
+    
+    // Remove visible class first to trigger collapse
+    infoContainer.classList.remove('visible');
+    
+    // Longer delay to let the dropdown slide slowly
+    setTimeout(() => {
+      const iconPath = getIconPath(kitName, quality || 'NQ');
+      icon.src = iconPath;
+      icon.style.display = 'block';
+      name.innerHTML = `<strong>${kitName} ${quality}</strong>`;
+      
+      // Trigger reflow and show
+      void infoContainer.offsetWidth;
+      infoContainer.classList.add('visible');
+    }, 400);
+  }
+
+  // --- Render results ---
+function renderResults(kitName, quality) {
+  // Update selected kit display in the left panel
+  updateSelectedKitDisplay(kitName, quality);
+  
+  if (!kitName) {
+    resultsContent.innerHTML = `
+      <div class="empty-state">
+        <div class="icon-hint">👆</div>
+        <div>Select a kit to see<br>what you could get for it.</div>
+      </div>
+    `;
+    updateScrollIndicator();
+    return;
+  }
+
+  const selectedValue = getKitValue(kitName, quality);
+  
+  if (selectedValue === 0) {
+    resultsContent.innerHTML = `
+      <div class="empty-state">
+        <div class="icon-hint">🗑️🦗</div>
+        <div>This kit has no trade value.<br>Try selecting another quality or kit.</div>
+      </div>
+    `;
+    updateScrollIndicator();
+    return;
+  }
+
+  const combos = findCombinations(selectedValue, kitName, quality);
+
+  if (combos.length === 0) {
+    resultsContent.innerHTML = `
+      <div class="empty-state">
+        <div class="icon-hint">🔍</div>
+        <div>No trade combinations found<br>for ${kitName} ${quality} (${selectedValue.toFixed(2)}).</div>
+      </div>
+    `;
+    updateScrollIndicator();
+    return;
+  }
+
+  let html = '';
+  let delay = 0;
+
+  for (const combo of combos) {
+    const status = getTradeStatus(selectedValue, combo.totalValue);
+    const statusClass = status.status === 'perfect' ? 'status-perfect' :
+                        status.status === 'okay' ? 'status-okay' : 'status-bad';
+    const labelClass = status.status === 'perfect' ? 'perfect' :
+                       status.status === 'okay' ? 'okay' : 'bad';
+
+    let kitsHtml = '';
+    for (let i = 0; i < combo.kits.length; i++) {
+      const k = combo.kits[i];
+      const iconPath = getIconPath(k.name, k.quality);
+      const displayName = getDisplayName(k.name, k.quality, k.quantity);
+      if (i > 0) {
+        kitsHtml += `<span class="rki-plus">+</span>`;
+      }
+      kitsHtml += `
+        <span class="result-kit-item">
+          <img src="${iconPath}" alt="${displayName}" loading="lazy" onerror="this.style.display='none'">
+          <span class="rki-name">${displayName}</span>
+        </span>
+      `;
+    }
+
+    html += `
+      <div class="result-card ${statusClass}" style="animation-delay: ${delay}ms;">
+        <span class="status-emoji">${status.emoji}</span>
+        <span class="status-label ${labelClass}">${status.label}</span>
+        <div class="result-kits">${kitsHtml}</div>
+        <span class="result-value">${combo.totalValue.toFixed(2)}</span>
+      </div>
+    `;
+    delay += 80;
+  }
+
+  resultsContent.innerHTML = html;
+
+  // Delay focus and scroll indicator to let card animations finish
+  // 600ms matches the slideLeftIn animation duration
+  setTimeout(() => {
+    resultsContent.focus();
+    updateScrollIndicator();
+  }, 2000);
+}
+
+  // --- Build kit selector grid ---
+  function buildSelector() {
+    selectorList.innerHTML = '';
+
+    for (const kitName of allKitNames) {
+      const iconPath = getIconPath(kitName, 'NQ');
+      const displayName = getDisplayName(kitName);
+
+      const item = document.createElement('div');
+      item.className = 'kit-selector-item';
+      if (selectedKit === kitName) {
+        item.classList.add('selected');
+      }
+
+      const img = document.createElement('img');
+      img.src = iconPath;
+      img.alt = displayName;
+      img.loading = 'lazy';
+      img.title = displayName;
+      img.onerror = function() { this.style.display = 'none'; };
+      item.appendChild(img);
+
+      item.addEventListener('click', function() {
+        document.querySelectorAll('.kit-selector-item').forEach(el => el.classList.remove('selected'));
+        this.classList.add('selected');
+        selectedKit = kitName;
+        selectedQuality = qualitySelect.value;
+        renderResults(selectedKit, selectedQuality);
+      });
+
+      selectorList.appendChild(item);
+    }
+  }
+
+  // --- Quality dropdown change handler ---
+  qualitySelect.addEventListener('change', function() {
+    selectedQuality = this.value;
+    if (selectedKit) {
+      const val = getKitValue(selectedKit, selectedQuality);
+      selectedValueDisplay.value = val.toFixed(2);
+      renderResults(selectedKit, selectedQuality);
+    } else {
+      selectedValueDisplay.value = '0.00';
+    }
+  });
+
+  function updateQualityDisplay(kitName) {
+    if (kitName) {
+      const val = getKitValue(kitName, qualitySelect.value);
+      selectedValueDisplay.value = val.toFixed(2);
+    } else {
+      selectedValueDisplay.value = '0.00';
+    }
+  }
+
+  const originalRenderResults = renderResults;
+  renderResults = function(kitName, quality) {
+    updateQualityDisplay(kitName);
+    originalRenderResults(kitName, quality);
+  };
+
+  buildSelector();
+  updateQualityDisplay(null);
+
+  // Initial scroll indicator check
+  setTimeout(updateScrollIndicator, 100);
+
+  setTimeout(() => {
+    showToast(`💡 Click a kit to see what you could get for it.`, 4000);
+  }, 600);
+
+  window.__whatCanGet = {
+    selectedKit: () => selectedKit,
+    selectedQuality: () => selectedQuality,
+    allKits: allKitNames,
+    crossQualityKits: CROSS_QUALITY_KITS,
+    mostTradedKits: MOST_TRADED_KITS,
+    getKitValue: getKitValue,
+    shouldUseCrossQuality: shouldUseCrossQuality,
+    isMostTradedKit: isMostTradedKit,
+    renderResults: renderResults
+  };
+
+})();
+</script>
+</body>
+</html>
