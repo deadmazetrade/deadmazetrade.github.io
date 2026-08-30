@@ -1039,38 +1039,42 @@
     }
   }
 
-  // --- STANDARD MATCHING: Uses NQ for result kits, quantity 1 only ---
+  // --- STANDARD MATCHING: Uses ALL qualities for result kits ---
   function generateStandardMatches(excludeKitName, targetValue) {
     const results = [];
     
     for (const kitName of allKitNames) {
       if (kitName === excludeKitName) continue;
       
-      const value = getKitValue(kitName, 'NQ');
-      if (value <= 0) continue;
-      
-      const totalValue = value;
-      const diff = Math.abs(totalValue - targetValue);
-      
-      let maxDiff;
-      if (targetValue > 20) {
-        maxDiff = Math.max(targetValue * 0.15, 2);
-      } else if (targetValue > 5) {
-        maxDiff = Math.max(targetValue * 0.25, 0.8);
-      } else {
-        maxDiff = Math.max(targetValue * 0.4, 0.3);
-      }
-      
-      if (diff <= maxDiff) {
-        results.push({
-          kits: [{ name: kitName, quality: 'NQ', quantity: 1 }],
-          totalValue: totalValue,
-          diff: diff,
-          source: 'standard',
-          isMostTraded: isMostTradedKit(kitName),
-          isQuantityMultiple: false,
-          resultTier: 0
-        });
+      // Check ALL qualities, not just NQ
+      for (const quality of QUALITIES) {
+        const value = getKitValue(kitName, quality);
+        if (value <= 0) continue;
+        
+        // Check quantity 1 for standard matching
+        const totalValue = value;
+        const diff = Math.abs(totalValue - targetValue);
+        
+        let maxDiff;
+        if (targetValue > 20) {
+          maxDiff = Math.max(targetValue * 0.15, 2);
+        } else if (targetValue > 5) {
+          maxDiff = Math.max(targetValue * 0.25, 0.8);
+        } else {
+          maxDiff = Math.max(targetValue * 0.4, 0.3);
+        }
+        
+        if (diff <= maxDiff) {
+          results.push({
+            kits: [{ name: kitName, quality: quality, quantity: 1 }],
+            totalValue: totalValue,
+            diff: diff,
+            source: 'standard',
+            isMostTraded: isMostTradedKit(kitName),
+            isQuantityMultiple: false,
+            resultTier: getQualityTier(quality)
+          });
+        }
       }
     }
     
@@ -1133,11 +1137,13 @@
   function findCombinations(targetValue, selectedKitName, selectedQuality) {
     const allResults = [];
     
+    // 1. Standard matching (ALL kits, ALL qualities, quantity 1)
     const standardMatches = generateStandardMatches(selectedKitName, targetValue);
     for (const match of standardMatches) {
       allResults.push(match);
     }
     
+    // 2. Cross-quality matching (only for CROSS_QUALITY_KITS)
     const crossQualityMatches = generateCrossQualityMatches(selectedKitName, targetValue, selectedQuality);
     for (const match of crossQualityMatches) {
       allResults.push(match);
