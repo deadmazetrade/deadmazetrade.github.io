@@ -8,6 +8,23 @@
 <link rel="icon" href="favicon.png" type="image/png">
 <link rel="stylesheet" href="styles.css">
 <style>
+  /* Warning banner - top left corner */
+  .warning-banner {
+    position: fixed;
+    top: 14px;
+    left: 20px;
+    color: #ffcc00;
+    font-size: 13px;
+    font-family: Arial, sans-serif;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 4px 12px;
+    border-radius: 6px;
+    z-index: 9999;
+    pointer-events: none;
+    border: 1px solid rgba(255, 204, 0, 0.3);
+    text-shadow: 0 0 8px rgba(255, 204, 0, 0.2);
+  }
+
   /* Top right navigation links */
   .top-nav {
     position: fixed;
@@ -59,6 +76,9 @@
 </style>
 </head>
 <body>
+<!-- Warning banner -->
+<div class="warning-banner">⚠️ Values may vary; some may require corrections</div>
+
 <br>
 <h2>Dead Maze Trade Calculator</h2>
 <div class="glass-container">
