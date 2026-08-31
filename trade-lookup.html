@@ -938,7 +938,7 @@
   // ============================================================
 
   // When true: ONLY show Perfect (green) results, filter out Okay and Bad
-  // When false: Show all results (Perfect, Okay, Bad, Neutral)
+  // When false: Show all results (Perfect, Okay, Bad)
   const FILTER_OUT_NONPERFECT = true;
 
   // ============================================================
@@ -1143,7 +1143,7 @@
 
   function getTradeStatus(selectedValue, resultValue) {
     if (selectedValue === 0 || resultValue === 0) {
-      return { emoji: '⚪', status: 'neutral', label: 'No value' };
+      return { emoji: '🔴', status: 'bad', label: 'Not Recommended' };
     }
 
     function getTier(v) {
@@ -1429,17 +1429,14 @@
     const perfect = [];
     const okay = [];
     const bad = [];
-    const neutral = [];
 
     for (const result of resultsWithStatus) {
       if (result.status === 'perfect') {
         perfect.push(result);
       } else if (result.status === 'okay') {
         okay.push(result);
-      } else if (result.status === 'bad') {
-        bad.push(result);
       } else {
-        neutral.push(result);
+        bad.push(result);
       }
     }
 
@@ -1464,13 +1461,11 @@
     const sortedPerfect = sortGroup(perfect);
     const sortedOkay = sortGroup(okay);
     const sortedBad = sortGroup(bad);
-    const sortedNeutral = sortGroup(neutral);
 
     if (DEBUG) {
       console.log('🟢 PERFECT COUNT:', sortedPerfect.length);
       console.log('🟡 OKAY COUNT:', sortedOkay.length);
       console.log('🔴 BAD COUNT:', sortedBad.length);
-      console.log('⚪ NEUTRAL COUNT:', sortedNeutral.length);
     }
 
     // FILTER: If FILTER_OUT_NONPERFECT is true, ONLY return Perfect results
@@ -1479,7 +1474,7 @@
     }
 
     // Otherwise, return all results
-    const allSorted = [...sortedPerfect, ...sortedOkay, ...sortedBad, ...sortedNeutral];
+    const allSorted = [...sortedPerfect, ...sortedOkay, ...sortedBad];
 
     const perfectCount = sortedPerfect.length;
     if (perfectCount > MAX_RESULTS) {
@@ -1487,7 +1482,7 @@
     }
 
     const remainingSlots = MAX_RESULTS - perfectCount;
-    const otherResults = [...sortedOkay, ...sortedBad, ...sortedNeutral];
+    const otherResults = [...sortedOkay, ...sortedBad];
     const finalResults = [...sortedPerfect, ...otherResults.slice(0, remainingSlots)];
 
     if (DEBUG) {
