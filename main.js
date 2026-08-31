@@ -334,8 +334,14 @@ function reviewTrade() {
   
 }
 
+const VALUE_NOTICE_STORAGE_KEY = 'deadMazeTrade_valueNoticeSeen_v1';
+
 window.addEventListener('DOMContentLoaded', ()=>{
   addKitRow('leftRowsContainer');
-  addKitRow('rightRowsContainer');  
-  showToast("Note:<br>⚠️ Values may vary.", 5000);
+  addKitRow('rightRowsContainer');
+
+  if (!localStorage.getItem(VALUE_NOTICE_STORAGE_KEY)) {
+    showToast("Note:<br>⚠️ Values may vary.", 5000);
+    localStorage.setItem(VALUE_NOTICE_STORAGE_KEY, 'true');
+  }
 });
