@@ -950,20 +950,33 @@
     scrollIndicator.classList.toggle('visible', isScrollable);
   }
 
-  // --- Arrow key scrolling ---
-  resultsContent.addEventListener('keydown', function(e) {
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      this.scrollBy({ top: 30, behavior: 'smooth' });
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      this.scrollBy({ top: -30, behavior: 'smooth' });
+  // --- Arrow key scrolling (document-level, no focus needed) ---
+  document.addEventListener('keydown', function(e) {
+    // Only handle arrow keys
+    if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+    
+    // Check if results container exists
+    if (!resultsContent) return;
+    
+    // Check if results container has scrollable content
+    const isScrollable = resultsContent.scrollHeight > resultsContent.clientHeight;
+    if (!isScrollable) return;
+    
+    // Check if the event target is NOT an input, select, or textarea
+    const tagName = e.target.tagName.toLowerCase();
+    if (tagName === 'input' || tagName === 'select' || tagName === 'textarea') {
+      return; // Let the dropdown/input handle its own arrow keys
     }
+    
+    // Check if results container is visible (not hidden by empty state)
+    const hasContent = resultsContent.children.length > 0;
+    const hasEmptyState = resultsContent.querySelector('.empty-state');
+    if (!hasContent || hasEmptyState) return;
+    
+    e.preventDefault();
+    const scrollAmount = e.key === 'ArrowDown' ? 30 : -30;
+    resultsContent.scrollBy({ top: scrollAmount, behavior: 'smooth' });
   });
-
-  // --- Make resultsContent focusable for arrow keys ---
-  resultsContent.setAttribute('tabindex', '0');
-  resultsContent.setAttribute('role', 'list');
 
   // --- Update indicator on scroll and resize ---
   resultsContent.addEventListener('scroll', updateScrollIndicator);
@@ -1318,12 +1331,10 @@ function renderResults(kitName, quality) {
 
   resultsContent.innerHTML = html;
 
-  // Delay focus and scroll indicator to let card animations finish
-  // 600ms matches the slideLeftIn animation duration
-  setTimeout(() => {
-    resultsContent.focus();
+  // Update scroll indicator after content is rendered (no focus stealing)
+  requestAnimationFrame(() => {
     updateScrollIndicator();
-  }, 2000);
+  });
 }
 
   // --- Build kit selector grid ---
