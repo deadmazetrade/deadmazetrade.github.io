@@ -13,16 +13,24 @@
     position: fixed;
     top: 14px;
     left: 20px;
-    color: #ffcc00;
+    color: #ffffff;
     font-size: 13px;
     font-family: Arial, sans-serif;
-    background: rgba(0, 0, 0, 0.7);
-    padding: 4px 12px;
+    background: #d79e00;
+    padding: 5px 14px;
     border-radius: 6px;
     z-index: 9999;
     pointer-events: none;
-    border: 1px solid rgba(255, 204, 0, 0.3);
-    text-shadow: 0 0 8px rgba(255, 204, 0, 0.2);
+    border: 1px solid rgba(255, 193, 7, 0.5);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .warning-banner svg {
+    flex-shrink: 0;
   }
 
   /* Top right navigation links */
@@ -76,8 +84,15 @@
 </style>
 </head>
 <body>
-<!-- Warning banner -->
-<div class="warning-banner">⚠️ Values may vary; some may require corrections</div>
+
+<div class="warning-banner">
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:6px; flex-shrink:0;">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+    <line x1="12" y1="9" x2="12" y2="13"/>
+    <line x1="12" y1="17" x2="12.01" y2="17"/>
+  </svg>
+  <strong>Values may vary; some may require corrections.</strong>
+</div>    
 
 <br>
 <h2>Dead Maze Trade Calculator</h2>
