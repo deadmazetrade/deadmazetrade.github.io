@@ -8,7 +8,6 @@
 <link rel="stylesheet" href="styles.css">
 <style>
   /* Additional styles specific to what-can-get.html — minimal additions */
-  
   .what-can-get-layout {
     display: flex;
     gap: 16px;
@@ -38,9 +37,11 @@
   .selector-panel::-webkit-scrollbar {
     width: 3px;
   }
+
   .selector-panel::-webkit-scrollbar-track {
     background: transparent;
   }
+
   .selector-panel::-webkit-scrollbar-thumb {
     background: rgba(255,255,255,0.2);
     border-radius: 3px;
@@ -204,7 +205,7 @@
     grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
     gap: 3px;
     justify-items: center;
-    background-image: 
+    background-image:
       linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
       linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
     background-size: 56px 56px;
@@ -311,38 +312,41 @@
   #resultsContent::-webkit-scrollbar {
     width: 8px;
   }
+
   #resultsContent::-webkit-scrollbar-track {
     background: rgba(255,255,255,0.08);
     border-radius: 6px;
   }
+
   #resultsContent::-webkit-scrollbar-thumb {
     background: rgba(255,255,255,0.3);
     border-radius: 6px;
     border: 1px solid rgba(255,255,255,0.1);
     min-height: 40px;
   }
+
   #resultsContent::-webkit-scrollbar-thumb:hover {
     background: rgba(255,255,255,0.45);
   }
 
-/* Scroll indicator - OVERLAY at bottom with glassy style */
-.scroll-indicator {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  text-align: center;
-  font-size: 0.75em;
-  color: rgba(255,255,255,0.6);
-  padding: 20px 0 0 0;
-  margin: 0;
-  line-height: 1;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-  user-select: none;
-  z-index: 5;
-}
+  /* Scroll indicator - OVERLAY at bottom with glassy style */
+  .scroll-indicator {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 0.75em;
+    color: rgba(255,255,255,0.6);
+    padding: 20px 0 0 0;
+    margin: 0;
+    line-height: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    user-select: none;
+    z-index: 5;
+  }
 
   .scroll-indicator.visible {
     opacity: 1;
@@ -472,9 +476,11 @@
       opacity: 0;
       transform: translateX(60px);
     }
+
     60% {
       opacity: 0.4;
     }
+
     100% {
       opacity: 1;
       transform: translateX(0);
@@ -518,29 +524,35 @@
 
   /* Responsive */
   @media (max-width: 1100px) {
+
     .what-can-get-layout {
       max-width: 100%;
       gap: 12px;
       padding: 0 8px;
     }
+
     .selector-panel {
       flex: 0 0 400px;
       min-width: 340px;
     }
+
     .results-panel {
       flex: 0 0 340px;
       min-width: 280px;
       max-width: 340px;
     }
+
     .selector-grid {
       grid-template-columns: repeat(auto-fill, minmax(46px, 1fr));
       gap: 3px;
       background-size: 50px 50px;
     }
+
     .kit-selector-item img {
       width: 34px;
       height: 34px;
     }
+
     .results-panel {
       max-height: 70vh;
       padding: 14px 14px;
@@ -548,69 +560,85 @@
   }
 
   @media (max-width: 820px) {
+
     .what-can-get-layout {
       max-width: 100%;
       gap: 10px;
       padding: 0 4px;
     }
+
     .selector-panel {
       flex: 0 0 280px;
       min-width: 220px;
       padding: 8px 6px;
     }
+
     .results-panel {
       flex: 0 0 260px;
       min-width: 200px;
       max-width: 260px;
       padding: 12px 12px;
     }
+
     .selector-grid {
       grid-template-columns: repeat(auto-fill, minmax(42px, 1fr));
       gap: 2px;
       background-size: 46px 46px;
     }
+
     .kit-selector-item img {
       width: 30px;
       height: 30px;
     }
+
     .kit-selector-item {
       padding: 2px 1px;
     }
+
     .selected-kit-display-row {
       gap: 0;
       padding: 3px 6px;
       min-height: 28px;
     }
+
     .selected-kit-info .selected-icon {
       width: 20px;
       height: 20px;
     }
+
     .selected-kit-info .selected-name {
       font-size: 0.6em;
     }
+
     .quality-controls select {
       width: 40px;
       font-size: 0.6em;
       height: 18px;
     }
+
     .quality-controls .value-input {
       width: 40px;
       font-size: 0.6em;
       height: 18px;
     }
+
     .quality-controls label {
       font-size: 0.6em;
     }
+
     .results-panel {
       max-height: 60vh;
       padding: 12px 12px;
     }
+
     #resultsContent::-webkit-scrollbar {
       width: 6px;
     }
+
     .scroll-indicator {
       font-size: 0.65em;
     }
+
     .result-card {
       padding: 3px 8px;
       min-height: 24px;
@@ -619,13 +647,16 @@
       animation-duration: 0.5s;
       padding-right: 40px;
     }
+
     .result-card .result-kit-item img {
       width: 16px;
       height: 16px;
     }
+
     .result-card .result-kit-item .rki-name {
       font-size: 0.55em;
     }
+
     .result-card .result-value {
       font-size: 0.55em;
       padding: 0px 6px;
@@ -633,18 +664,21 @@
       min-width: 24px;
       right: 6px;
     }
+
     .result-card .status-label {
       font-size: 0.6em;
     }
   }
 
   @media (max-width: 640px) {
+
     .what-can-get-layout {
       flex-direction: column;
       padding: 0 4px;
       gap: 10px;
       max-width: 100%;
     }
+
     .selector-panel {
       flex: none;
       width: 100%;
@@ -654,6 +688,7 @@
       margin-left: 0;
       min-width: unset;
     }
+
     .results-panel {
       flex: none;
       width: 100%;
@@ -662,61 +697,75 @@
       max-height: 50vh;
       padding: 10px 10px;
     }
+
     .selector-panel h3 {
       font-size: 0.55em;
       margin-bottom: 4px;
       padding-bottom: 4px;
     }
+
     .selected-kit-display-row {
       margin-bottom: 6px;
       padding: 2px 6px;
       min-height: 24px;
     }
+
     .selected-kit-info .selected-icon {
       width: 18px;
       height: 18px;
     }
+
     .selected-kit-info .selected-name {
       font-size: 0.55em;
     }
+
     .quality-controls select {
       font-size: 0.6em;
       height: 18px;
       width: 36px;
       padding: 1px 3px;
     }
+
     .quality-controls .value-input {
       font-size: 0.6em;
       height: 18px;
       width: 36px;
       padding: 1px 3px;
     }
+
     .quality-controls label {
       font-size: 0.6em;
     }
+
     .selector-grid {
       grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
       gap: 2px;
       background-size: 48px 48px;
     }
+
     .kit-selector-item img {
       width: 32px;
       height: 32px;
     }
+
     .results-panel {
       min-height: 200px;
       max-height: 50vh;
       padding: 10px 10px;
     }
+
     #resultsContent {
       padding-right: 4px;
     }
+
     #resultsContent::-webkit-scrollbar {
       width: 6px;
     }
+
     .scroll-indicator {
       font-size: 0.55em;
     }
+
     .result-card {
       padding: 3px 6px;
       min-height: 22px;
@@ -726,13 +775,16 @@
       animation-duration: 0.4s;
       padding-right: 34px;
     }
+
     .result-card .result-kit-item img {
       width: 14px;
       height: 14px;
     }
+
     .result-card .result-kit-item .rki-name {
       font-size: 0.5em;
     }
+
     .result-card .result-value {
       font-size: 0.5em;
       padding: 0px 4px;
@@ -740,41 +792,51 @@
       min-width: 20px;
       right: 4px;
     }
+
     .result-card .status-label {
       font-size: 0.55em;
     }
+
     .result-card .status-emoji {
       font-size: 0.8em;
     }
+
     .result-card .result-kits {
       gap: 1px 4px;
     }
   }
 
   @media (max-width: 400px) {
+
     .selector-panel {
       max-height: 160px;
       padding: 4px 2px;
     }
+
     .selector-grid {
       grid-template-columns: repeat(auto-fill, minmax(38px, 1fr));
       gap: 2px;
       background-size: 42px 42px;
     }
+
     .kit-selector-item img {
       width: 28px;
       height: 28px;
     }
+
     .kit-selector-item {
       padding: 1px;
     }
+
     .results-panel {
       padding: 6px 6px;
       max-height: 40vh;
     }
+
     .scroll-indicator {
       font-size: 0.45em;
     }
+
     .result-card {
       padding: 2px 4px;
       min-height: 20px;
@@ -782,10 +844,12 @@
       animation-duration: 0.35s;
       padding-right: 28px;
     }
+
     .result-card .result-kit-item img {
       width: 12px;
       height: 12px;
     }
+
     .result-card .result-value {
       font-size: 0.5em;
       padding: 0px 3px;
@@ -811,7 +875,7 @@
   <!-- LEFT: Kit Selector Grid with Quality Dropdown -->
   <div class="selector-panel" id="kitSelectorPanel">
     <h3>KITS</h3>
-    
+
     <!-- Selected kit display row -->
     <div class="selected-kit-display-row" id="selectedKitDisplayRow">
       <!-- Quality controls - label and dropdown slide slowly -->
@@ -823,7 +887,7 @@
           <option value="HQ">HQ</option>
           <option value="EQ">EQ</option>
         </select>
-        
+
         <!-- Kit info slides in between dropdown and input -->
         <div class="selected-kit-info" id="selectedKitInfo">
           <img class="selected-icon" id="selectedKitIcon" src="" alt="">
@@ -831,11 +895,11 @@
             <span class="tag">Select a kit</span>
           </span>
         </div>
-        
+
         <input type="text" class="value-input" id="selectedValueDisplay" value="0.00" readonly>
       </div>
     </div>
-    
+
     <div class="selector-grid" id="kitSelectorList"></div>
   </div>
 
@@ -861,7 +925,26 @@
 (function() {
   'use strict';
 
-  // --- CROSS-QUALITY KITS LIST (DEBUG ONLY - NOT DISPLAYED) ---
+  // ============================================================
+  // CONFIGURATION
+  // ============================================================
+
+  const MAX_RESULTS = 100;
+  const ENABLE_LOW_PRIORITY_MULTIPLES = true;
+  const DEBUG = false; // Set to true to enable debug prints
+
+  // ============================================================
+  // FILTER TOGGLE
+  // ============================================================
+
+  // When true: ONLY show Perfect (green) results, filter out Okay and Bad
+  // When false: Show all results (Perfect, Okay, Bad, Neutral)
+  const FILTER_OUT_NONPERFECT = true;
+
+  // ============================================================
+  // CROSS-QUALITY KITS
+  // ============================================================
+
   const CROSS_QUALITY_KITS = [
     'Heal',
     'Stun',
@@ -873,7 +956,10 @@
     'Shield'
   ];
 
-  // --- MOST TRADED KITS LIST (DEBUG ONLY - NOT DISPLAYED) ---
+  // ============================================================
+  // MOST TRADED KITS
+  // ============================================================
+
   const MOST_TRADED_KITS = [
     'Heal',
     'Stun',
@@ -895,7 +981,18 @@
     'Critical Chance'
   ];
 
-  // --- Categories from main.js (EXCLUDING DYES) ---
+  // ============================================================
+  // LOW-VALUE BLACKLIST FOR MULTIPLE
+  // ============================================================
+
+  const LOW_VALUE_MULTIPLE_BLACKLIST = [
+    'Damage'
+  ];
+
+  // ============================================================
+  // CATEGORIES FROM MAIN.JS (EXCLUDING DYES)
+  // ============================================================
+
   const Categories = {
     "Battle Kits": [
       "Cold Attack", "Electric Attack", "Fire Attack", "Toxic Attack",
@@ -926,14 +1023,23 @@
   }
   allKitNames.sort();
 
-  // --- Qualities ---
+  // ============================================================
+  // QUALITIES
+  // ============================================================
+
   const QUALITIES = ['NQ', 'GQ', 'HQ', 'EQ'];
 
-  // --- State ---
+  // ============================================================
+  // STATE
+  // ============================================================
+
   let selectedKit = null;
   let selectedQuality = 'NQ';
 
-  // --- DOM refs ---
+  // ============================================================
+  // DOM REFS
+  // ============================================================
+
   const selectorList = document.getElementById('kitSelectorList');
   const resultsContent = document.getElementById('resultsContent');
   const qualitySelect = document.getElementById('qualitySelect');
@@ -943,46 +1049,44 @@
   const selectedKitInfo = document.getElementById('selectedKitInfo');
   const scrollIndicator = document.getElementById('scrollIndicator');
 
-  // --- Check if content is scrollable and show/hide indicator ---
+  // ============================================================
+  // SCROLL INDICATOR
+  // ============================================================
+
   function updateScrollIndicator() {
     if (!resultsContent) return;
     const isScrollable = resultsContent.scrollHeight > resultsContent.clientHeight;
     scrollIndicator.classList.toggle('visible', isScrollable);
   }
 
-  // --- Arrow key scrolling (document-level, no focus needed) ---
+  // ============================================================
+  // ARROW KEY SCROLLING
+  // ============================================================
+
   document.addEventListener('keydown', function(e) {
-    // Only handle arrow keys
     if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
-    
-    // Check if results container exists
     if (!resultsContent) return;
-    
-    // Check if results container has scrollable content
     const isScrollable = resultsContent.scrollHeight > resultsContent.clientHeight;
     if (!isScrollable) return;
-    
-    // Check if the event target is NOT an input, select, or textarea
     const tagName = e.target.tagName.toLowerCase();
     if (tagName === 'input' || tagName === 'select' || tagName === 'textarea') {
-      return; // Let the dropdown/input handle its own arrow keys
+      return;
     }
-    
-    // Check if results container is visible (not hidden by empty state)
     const hasContent = resultsContent.children.length > 0;
     const hasEmptyState = resultsContent.querySelector('.empty-state');
     if (!hasContent || hasEmptyState) return;
-    
     e.preventDefault();
     const scrollAmount = e.key === 'ArrowDown' ? 30 : -30;
     resultsContent.scrollBy({ top: scrollAmount, behavior: 'smooth' });
   });
 
-  // --- Update indicator on scroll and resize ---
   resultsContent.addEventListener('scroll', updateScrollIndicator);
   window.addEventListener('resize', updateScrollIndicator);
 
-  // --- Helpers ---
+  // ============================================================
+  // HELPERS
+  // ============================================================
+
   function isDye(kitName) {
     return dyeValues.hasOwnProperty(kitName);
   }
@@ -1002,22 +1106,18 @@
   function getDisplayName(kitName, quality, quantity) {
     let name = kitName;
     if (quality) name += ' ' + quality;
-    if (quantity && quantity > 1) name += ' ×' + quantity;
+    if (quantity && quantity > 1) {
+      name += ' ×' + quantity;
+    }
     return name;
   }
 
-  // DEBUG ONLY - used for matching logic, not displayed
   function shouldUseCrossQuality(kitName) {
     return CROSS_QUALITY_KITS.includes(kitName) || MOST_TRADED_KITS.includes(kitName);
   }
 
-  // DEBUG ONLY - used for matching logic, not displayed
   function isMostTradedKit(kitName) {
     return MOST_TRADED_KITS.includes(kitName);
-  }
-
-  function isQuantityMultipleMatch(quantity) {
-    return quantity === 4 || quantity === 5;
   }
 
   function getQualityTier(quality) {
@@ -1025,7 +1125,22 @@
     return tiers[quality] || 0;
   }
 
-  // --- Determine status using UPDATED logic ---
+  // ============================================================
+  // REMAINING / LOW-PRIORITY KIT CHECK
+  // ============================================================
+
+  function isRemainingKit(kitName) {
+    return !MOST_TRADED_KITS.includes(kitName) && !CROSS_QUALITY_KITS.includes(kitName);
+  }
+
+  function isBlacklistedForMultiples(kitName) {
+    return LOW_VALUE_MULTIPLE_BLACKLIST.includes(kitName);
+  }
+
+  // ============================================================
+  // DETERMINE STATUS
+  // ============================================================
+
   function getTradeStatus(selectedValue, resultValue) {
     if (selectedValue === 0 || resultValue === 0) {
       return { emoji: '⚪', status: 'neutral', label: 'No value' };
@@ -1042,41 +1157,62 @@
     const ratio = Math.min(selectedValue, resultValue) / Math.max(selectedValue, resultValue);
 
     if (leftTier !== rightTier) {
-      return (selectedValue === resultValue) 
+      return (selectedValue === resultValue)
         ? { emoji: '🟢', status: 'perfect', label: 'Perfect' }
         : { emoji: '🔴', status: 'bad', label: 'Not Recommended' };
     } else {
-      if (ratio >= 0.6) return { emoji: '🟢', status: 'perfect', label: 'Perfect' };
-      if (ratio >= 0.4) return { emoji: '🟡', status: 'okay', label: 'Okay' };
+      if (ratio >= 0.6) {
+        return { emoji: '🟢', status: 'perfect', label: 'Perfect' };
+      }
+      if (ratio >= 0.4) {
+        return { emoji: '🟡', status: 'okay', label: 'Okay' };
+      }
       return { emoji: '🔴', status: 'bad', label: 'Not Recommended' };
     }
   }
 
-  // --- STANDARD MATCHING: Uses ALL qualities for result kits ---
+  // ============================================================
+  // MATCH TOLERANCE
+  // ============================================================
+
+  function getMaxDifference(targetValue) {
+    if (targetValue > 20) {
+      return Math.max(targetValue * 0.15, 2);
+    }
+    if (targetValue > 5) {
+      return Math.max(targetValue * 0.25, 0.8);
+    }
+    return Math.max(targetValue * 0.4, 0.3);
+  }
+
+  function getMultipleMaxDifference(targetValue) {
+    if (targetValue > 20) {
+      return Math.max(targetValue * 0.15, 2);
+    }
+    if (targetValue > 5) {
+      return Math.max(targetValue * 0.25, 0.8);
+    }
+    return Math.max(targetValue * 0.3, 0.2);
+  }
+
+  // ============================================================
+  // TIER 1: STANDARD SINGLE-KIT MATCHING
+  // ============================================================
+
   function generateStandardMatches(excludeKitName, targetValue) {
     const results = [];
-    
+
     for (const kitName of allKitNames) {
       if (kitName === excludeKitName) continue;
-      
-      // Check ALL qualities, not just NQ
+
       for (const quality of QUALITIES) {
         const value = getKitValue(kitName, quality);
         if (value <= 0) continue;
-        
-        // Check quantity 1 for standard matching
+
         const totalValue = value;
         const diff = Math.abs(totalValue - targetValue);
-        
-        let maxDiff;
-        if (targetValue > 20) {
-          maxDiff = Math.max(targetValue * 0.15, 2);
-        } else if (targetValue > 5) {
-          maxDiff = Math.max(targetValue * 0.25, 0.8);
-        } else {
-          maxDiff = Math.max(targetValue * 0.4, 0.3);
-        }
-        
+        const maxDiff = getMaxDifference(targetValue);
+
         if (diff <= maxDiff) {
           results.push({
             kits: [{ name: kitName, quality: quality, quantity: 1 }],
@@ -1090,90 +1226,195 @@
         }
       }
     }
-    
+
     return results;
   }
 
-  // --- CROSS-QUALITY MATCHING: For kits in EITHER list ---
-  function generateCrossQualityMatches(excludeKitName, targetValue, selectedQuality) {
+  // ============================================================
+  // GENERIC MULTIPLE GENERATOR
+  // ============================================================
+
+  function generateMultipleCandidates(kitName, targetValue) {
     const results = [];
-    
-    if (!shouldUseCrossQuality(excludeKitName)) {
-      return results;
-    }
-    
-    const crossQualityKits = allKitNames.filter(name => 
-      name !== excludeKitName && shouldUseCrossQuality(name)
-    );
-    
-    for (const kitName of crossQualityKits) {
-      for (const quality of QUALITIES) {
-        const value = getKitValue(kitName, quality);
-        if (value <= 0) continue;
-        
-        const quantities = [1, 4, 5];
-        
-        for (const qty of quantities) {
-          const totalValue = value * qty;
-          const diff = Math.abs(totalValue - targetValue);
-          
-          let maxDiff;
-          if (targetValue > 20) {
-            maxDiff = Math.max(targetValue * 0.15, 2);
-          } else if (targetValue > 5) {
-            maxDiff = Math.max(targetValue * 0.25, 0.8);
-          } else {
-            maxDiff = Math.max(targetValue * 0.3, 0.2);
-          }
-          
-          if (diff <= maxDiff) {
-            const isQtyMultiple = qty === 4 || qty === 5;
-            
-            results.push({
-              kits: [{ name: kitName, quality: quality, quantity: qty }],
-              totalValue: totalValue,
-              diff: diff,
-              source: 'cross-quality',
-              isMostTraded: isMostTradedKit(kitName),
-              isQuantityMultiple: isQtyMultiple,
-              resultTier: getQualityTier(quality)
-            });
+
+    for (const quality of QUALITIES) {
+      const value = getKitValue(kitName, quality);
+      if (value <= 0) continue;
+
+      const quantitiesToTry = [2, 3, 4, 5];
+      const candidates = [];
+
+      for (const qty of quantitiesToTry) {
+        const totalValue = value * qty;
+        const diff = Math.abs(totalValue - targetValue);
+        const maxDiff = getMultipleMaxDifference(targetValue);
+
+        if (diff <= maxDiff) {
+          candidates.push({
+            qty: qty,
+            diff: diff,
+            totalValue: totalValue
+          });
+        }
+      }
+
+      if (candidates.length === 0) continue;
+
+      candidates.sort((a, b) => {
+        if (a.diff !== b.diff) return a.diff - b.diff;
+        return a.qty - b.qty;
+      });
+
+      const resultsToAdd = [candidates[0]];
+
+      if (candidates[0].qty >= 4) {
+        for (let i = 1; i < candidates.length; i++) {
+          if (candidates[i].qty >= 4) {
+            resultsToAdd.push(candidates[i]);
+            break;
           }
         }
       }
+
+      for (const candidate of resultsToAdd) {
+        results.push({
+          kits: [{ name: kitName, quality: quality, quantity: candidate.qty }],
+          totalValue: candidate.totalValue,
+          diff: candidate.diff,
+          quality: quality,
+          quantity: candidate.qty,
+          resultTier: getQualityTier(quality)
+        });
+      }
     }
-    
+
     return results;
   }
 
-  // --- Find best matches combining BOTH layers ---
+  // ============================================================
+  // TIER 2: PRIORITY MULTIPLES (Most-Traded + Cross-Quality)
+  // ============================================================
+
+  function generateCrossQualityMatches(excludeKitName, targetValue, selectedQuality) {
+    const results = [];
+
+    if (!shouldUseCrossQuality(excludeKitName)) {
+      return results;
+    }
+
+    const crossQualityKits = allKitNames.filter(name =>
+      name !== excludeKitName &&
+      (MOST_TRADED_KITS.includes(name) || CROSS_QUALITY_KITS.includes(name))
+    );
+
+    for (const kitName of crossQualityKits) {
+      const candidates = generateMultipleCandidates(kitName, targetValue);
+
+      for (const candidate of candidates) {
+        results.push({
+          kits: candidate.kits,
+          totalValue: candidate.totalValue,
+          diff: candidate.diff,
+          source: 'cross-quality',
+          isMostTraded: isMostTradedKit(kitName),
+          isQuantityMultiple: true,
+          resultTier: candidate.resultTier
+        });
+      }
+    }
+
+    return results;
+  }
+
+  // ============================================================
+  // TIER 3: REMAINING-KIT MULTIPLES (OTHER KITS)
+  // ============================================================
+
+  function generateLowPriorityMatches(excludeKitName, targetValue) {
+    const results = [];
+
+    const lowPriorityKits = allKitNames.filter(name =>
+      name !== excludeKitName &&
+      isRemainingKit(name) &&
+      !isBlacklistedForMultiples(name)
+    );
+
+    if (DEBUG) {
+      console.log('🔍 LOW PRIORITY KITS:', lowPriorityKits);
+      console.log('🎯 TARGET VALUE:', targetValue);
+    }
+
+    for (const kitName of lowPriorityKits) {
+      const candidates = generateMultipleCandidates(kitName, targetValue);
+
+      if (DEBUG && candidates.length > 0) {
+        console.log(`✅ ${kitName} has ${candidates.length} candidate(s):`, candidates);
+      }
+
+      for (const candidate of candidates) {
+        results.push({
+          kits: candidate.kits,
+          totalValue: candidate.totalValue,
+          diff: candidate.diff,
+          source: 'low-priority',
+          isMostTraded: false,
+          isQuantityMultiple: true,
+          resultTier: candidate.resultTier
+        });
+      }
+    }
+
+    if (DEBUG) {
+      console.log('📊 LOW PRIORITY RESULTS:', results);
+    }
+
+    return results;
+  }
+
+  // ============================================================
+  // THREE-TIER MATCHING SYSTEM
+  // ============================================================
+
   function findCombinations(targetValue, selectedKitName, selectedQuality) {
     const allResults = [];
-    
-    // 1. Standard matching (ALL kits, ALL qualities, quantity 1)
+
+    // TIER 1: Standard single-kit matching
     const standardMatches = generateStandardMatches(selectedKitName, targetValue);
     for (const match of standardMatches) {
       allResults.push(match);
     }
-    
-    // 2. Cross-quality matching (only for CROSS_QUALITY_KITS)
+
+    // TIER 2: Most-Traded + Cross-Quality multiples
     const crossQualityMatches = generateCrossQualityMatches(selectedKitName, targetValue, selectedQuality);
     for (const match of crossQualityMatches) {
       allResults.push(match);
     }
-    
+
+    // TIER 3: Remaining-kit multiples (OTHER KITS)
+    if (ENABLE_LOW_PRIORITY_MULTIPLES) {
+      const lowPriorityMatches = generateLowPriorityMatches(selectedKitName, targetValue);
+      for (const match of lowPriorityMatches) {
+        allResults.push(match);
+      }
+    }
+
     // Remove duplicates
     const seen = new Set();
     const uniqueResults = [];
     for (const result of allResults) {
       const key = result.kits.map(k => k.name + '|' + k.quality + '|' + (k.quantity || 1)).join('+');
-      if (!seen.has(key)) {
-        seen.add(key);
-        uniqueResults.push(result);
-      }
+      if (seen.has(key)) continue;
+      seen.add(key);
+      uniqueResults.push(result);
     }
-    
-    // Get status for each result
+
+    if (DEBUG) {
+      console.log('📊 TOTAL UNIQUE RESULTS:', uniqueResults.length);
+      const fireResResults = uniqueResults.filter(r => r.kits[0].name === 'Fire Resistance');
+      console.log('🔥 Fire Resistance results:', fireResResults);
+    }
+
+    // Add status to each result
     const resultsWithStatus = uniqueResults.map(result => {
       const statusResult = getTradeStatus(targetValue, result.totalValue);
       return {
@@ -1183,78 +1424,114 @@
         statusLabel: statusResult.label
       };
     });
-    
-    // Split into explicit groups
+
+    // Split into groups
     const perfect = [];
     const okay = [];
     const bad = [];
     const neutral = [];
-    
+
     for (const result of resultsWithStatus) {
-      if (result.status === 'perfect') perfect.push(result);
-      else if (result.status === 'okay') okay.push(result);
-      else if (result.status === 'bad') bad.push(result);
-      else neutral.push(result);
+      if (result.status === 'perfect') {
+        perfect.push(result);
+      } else if (result.status === 'okay') {
+        okay.push(result);
+      } else if (result.status === 'bad') {
+        bad.push(result);
+      } else {
+        neutral.push(result);
+      }
     }
-    
+
     // Sort each group
     const sortGroup = (group) => {
       return group.sort((a, b) => {
         if (a.diff !== b.diff) return a.diff - b.diff;
         if (a.isMostTraded !== b.isMostTraded) return a.isMostTraded ? -1 : 1;
-        if (a.isQuantityMultiple !== b.isQuantityMultiple) return a.isQuantityMultiple ? 1 : -1;
+        if (a.isQuantityMultiple !== b.isQuantityMultiple) {
+          return a.isQuantityMultiple ? 1 : -1;
+        }
         if (a.isQuantityMultiple && b.isQuantityMultiple) {
+          const aQty = a.kits[0].quantity || 1;
+          const bQty = b.kits[0].quantity || 1;
+          if (aQty !== bQty) return aQty - bQty;
           if (a.resultTier !== b.resultTier) return a.resultTier - b.resultTier;
         }
         return 0;
       });
     };
-    
-    // Combine in correct order: Perfect → Okay → Bad → Neutral
-    const sortedResults = [
-      ...sortGroup(perfect),
-      ...sortGroup(okay),
-      ...sortGroup(bad),
-      ...sortGroup(neutral)
-    ];
-    
-    return sortedResults.slice(0, 30);
+
+    const sortedPerfect = sortGroup(perfect);
+    const sortedOkay = sortGroup(okay);
+    const sortedBad = sortGroup(bad);
+    const sortedNeutral = sortGroup(neutral);
+
+    if (DEBUG) {
+      console.log('🟢 PERFECT COUNT:', sortedPerfect.length);
+      console.log('🟡 OKAY COUNT:', sortedOkay.length);
+      console.log('🔴 BAD COUNT:', sortedBad.length);
+      console.log('⚪ NEUTRAL COUNT:', sortedNeutral.length);
+    }
+
+    // FILTER: If FILTER_OUT_NONPERFECT is true, ONLY return Perfect results
+    if (FILTER_OUT_NONPERFECT) {
+      return sortedPerfect.slice(0, MAX_RESULTS);
+    }
+
+    // Otherwise, return all results
+    const allSorted = [...sortedPerfect, ...sortedOkay, ...sortedBad, ...sortedNeutral];
+
+    const perfectCount = sortedPerfect.length;
+    if (perfectCount > MAX_RESULTS) {
+      return sortedPerfect.slice(0, MAX_RESULTS);
+    }
+
+    const remainingSlots = MAX_RESULTS - perfectCount;
+    const otherResults = [...sortedOkay, ...sortedBad, ...sortedNeutral];
+    const finalResults = [...sortedPerfect, ...otherResults.slice(0, remainingSlots)];
+
+    if (DEBUG) {
+      console.log('📊 FINAL RESULTS COUNT:', finalResults.length);
+    }
+
+    return finalResults;
   }
 
-  // --- Update selected kit display - SLOW dropdown sliding ---
+  // ============================================================
+  // UPDATE SELECTED KIT DISPLAY
+  // ============================================================
+
   function updateSelectedKitDisplay(kitName, quality) {
     const infoContainer = selectedKitInfo;
     const icon = selectedKitIcon;
     const name = selectedKitName;
-    
+
     if (!kitName) {
       infoContainer.classList.remove('visible');
       icon.src = '';
       name.innerHTML = '<span class="tag">Select a kit</span>';
       return;
     }
-    
-    // Remove visible class first to trigger collapse
+
     infoContainer.classList.remove('visible');
-    
-    // Longer delay to let the dropdown slide slowly
+
     setTimeout(() => {
       const iconPath = getIconPath(kitName, quality || 'NQ');
       icon.src = iconPath;
       icon.style.display = 'block';
       name.innerHTML = `<strong>${kitName} ${quality}</strong>`;
-      
-      // Trigger reflow and show
       void infoContainer.offsetWidth;
       infoContainer.classList.add('visible');
     }, 400);
   }
 
-  // --- Render results ---
+  // ============================================================
+  // RENDER RESULTS
+  // ============================================================
+
 function renderResults(kitName, quality) {
-  // Update selected kit display in the left panel
   updateSelectedKitDisplay(kitName, quality);
-  
+
   if (!kitName) {
     resultsContent.innerHTML = `
       <div class="empty-state">
@@ -1262,12 +1539,13 @@ function renderResults(kitName, quality) {
         <div>Select a kit to see<br>what you could get for it.</div>
       </div>
     `;
+    resultsContent.scrollTop = 0;
     updateScrollIndicator();
     return;
   }
 
   const selectedValue = getKitValue(kitName, quality);
-  
+
   if (selectedValue === 0) {
     resultsContent.innerHTML = `
       <div class="empty-state">
@@ -1275,6 +1553,7 @@ function renderResults(kitName, quality) {
         <div>This kit has no trade value.<br>Try selecting another quality or kit.</div>
       </div>
     `;
+    resultsContent.scrollTop = 0;
     updateScrollIndicator();
     return;
   }
@@ -1288,6 +1567,7 @@ function renderResults(kitName, quality) {
         <div>No trade combinations found<br>for ${kitName} ${quality} (${selectedValue.toFixed(2)}).</div>
       </div>
     `;
+    resultsContent.scrollTop = 0;
     updateScrollIndicator();
     return;
   }
@@ -1329,15 +1609,19 @@ function renderResults(kitName, quality) {
     delay += 80;
   }
 
+  // Reset scroll to top before setting new content
+  resultsContent.scrollTop = 0;
   resultsContent.innerHTML = html;
 
-  // Update scroll indicator after content is rendered (no focus stealing)
   requestAnimationFrame(() => {
     updateScrollIndicator();
   });
 }
 
-  // --- Build kit selector grid ---
+  // ============================================================
+  // BUILD KIT SELECTOR GRID
+  // ============================================================
+
   function buildSelector() {
     selectorList.innerHTML = '';
 
@@ -1371,7 +1655,10 @@ function renderResults(kitName, quality) {
     }
   }
 
-  // --- Quality dropdown change handler ---
+  // ============================================================
+  // QUALITY DROPDOWN CHANGE
+  // ============================================================
+
   qualitySelect.addEventListener('change', function() {
     selectedQuality = this.value;
     if (selectedKit) {
@@ -1383,6 +1670,10 @@ function renderResults(kitName, quality) {
     }
   });
 
+  // ============================================================
+  // UPDATE QUALITY DISPLAY
+  // ============================================================
+
   function updateQualityDisplay(kitName) {
     if (kitName) {
       const val = getKitValue(kitName, qualitySelect.value);
@@ -1392,19 +1683,27 @@ function renderResults(kitName, quality) {
     }
   }
 
+  // ============================================================
+  // WRAP RENDER RESULTS
+  // ============================================================
+
   const originalRenderResults = renderResults;
   renderResults = function(kitName, quality) {
     updateQualityDisplay(kitName);
     originalRenderResults(kitName, quality);
   };
 
+  // ============================================================
+  // INITIALIZE
+  // ============================================================
+
   buildSelector();
   updateQualityDisplay(null);
-
-  // Initial scroll indicator check
   setTimeout(updateScrollIndicator, 100);
 
-  
+  // ============================================================
+  // DEBUG / EXTERNAL ACCESS
+  // ============================================================
 
   window.__whatCanGet = {
     selectedKit: () => selectedKit,
@@ -1412,11 +1711,29 @@ function renderResults(kitName, quality) {
     allKits: allKitNames,
     crossQualityKits: CROSS_QUALITY_KITS,
     mostTradedKits: MOST_TRADED_KITS,
+    lowValueMultipleBlacklist: LOW_VALUE_MULTIPLE_BLACKLIST,
     getKitValue: getKitValue,
     shouldUseCrossQuality: shouldUseCrossQuality,
     isMostTradedKit: isMostTradedKit,
-    renderResults: renderResults
+    isRemainingKit: isRemainingKit,
+    isBlacklistedForMultiples: isBlacklistedForMultiples,
+    renderResults: renderResults,
+    FILTER_OUT_NONPERFECT: FILTER_OUT_NONPERFECT,
+    debug: {
+      generateLowPriorityMatches: generateLowPriorityMatches,
+      generateMultipleCandidates: generateMultipleCandidates,
+      allKitNames: allKitNames
+    }
   };
+
+  if (DEBUG) {
+    console.log('📋 ALL KIT NAMES:', allKitNames);
+    console.log('📋 MOST_TRADED_KITS:', MOST_TRADED_KITS);
+    console.log('📋 CROSS_QUALITY_KITS:', CROSS_QUALITY_KITS);
+    console.log('📋 REMAINING KITS:', 
+      allKitNames.filter(n => !MOST_TRADED_KITS.includes(n) && !CROSS_QUALITY_KITS.includes(n)));
+    console.log('🔧 FILTER_OUT_NONPERFECT:', FILTER_OUT_NONPERFECT);
+  }
 
 })();
 </script>
