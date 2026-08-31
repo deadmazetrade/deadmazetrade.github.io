@@ -1375,124 +1375,93 @@
   // THREE-TIER MATCHING SYSTEM
   // ============================================================
 
-  function findCombinations(targetValue, selectedKitName, selectedQuality) {
-    const allResults = [];
+function findCombinations(targetValue, selectedKitName, selectedQuality) {
+  const allResults = [];
 
-    // TIER 1: Standard single-kit matching
-    const standardMatches = generateStandardMatches(selectedKitName, targetValue);
-    for (const match of standardMatches) {
-      allResults.push(match);
-    }
-
-    // TIER 2: Most-Traded + Cross-Quality multiples
-    const crossQualityMatches = generateCrossQualityMatches(selectedKitName, targetValue, selectedQuality);
-    for (const match of crossQualityMatches) {
-      allResults.push(match);
-    }
-
-    // TIER 3: Remaining-kit multiples (OTHER KITS)
-    if (ENABLE_LOW_PRIORITY_MULTIPLES) {
-      const lowPriorityMatches = generateLowPriorityMatches(selectedKitName, targetValue);
-      for (const match of lowPriorityMatches) {
-        allResults.push(match);
-      }
-    }
-
-    // Remove duplicates
-    const seen = new Set();
-    const uniqueResults = [];
-    for (const result of allResults) {
-      const key = result.kits.map(k => k.name + '|' + k.quality + '|' + (k.quantity || 1)).join('+');
-      if (seen.has(key)) continue;
-      seen.add(key);
-      uniqueResults.push(result);
-    }
-
-    if (DEBUG) {
-      console.log('📊 TOTAL UNIQUE RESULTS:', uniqueResults.length);
-      const fireResResults = uniqueResults.filter(r => r.kits[0].name === 'Fire Resistance');
-      console.log('🔥 Fire Resistance results:', fireResResults);
-    }
-
-    // Add status to each result
-    const resultsWithStatus = uniqueResults.map(result => {
-      const statusResult = getTradeStatus(targetValue, result.totalValue);
-      return {
-        ...result,
-        status: statusResult.status,
-        statusEmoji: statusResult.emoji,
-        statusLabel: statusResult.label
-      };
-    });
-
-    // Split into groups
-    const perfect = [];
-    const okay = [];
-    const bad = [];
-
-    for (const result of resultsWithStatus) {
-      if (result.status === 'perfect') {
-        perfect.push(result);
-      } else if (result.status === 'okay') {
-        okay.push(result);
-      } else {
-        bad.push(result);
-      }
-    }
-
-    // Sort each group
-    const sortGroup = (group) => {
-      return group.sort((a, b) => {
-        if (a.diff !== b.diff) return a.diff - b.diff;
-        if (a.isMostTraded !== b.isMostTraded) return a.isMostTraded ? -1 : 1;
-        if (a.isQuantityMultiple !== b.isQuantityMultiple) {
-          return a.isQuantityMultiple ? 1 : -1;
-        }
-        if (a.isQuantityMultiple && b.isQuantityMultiple) {
-          const aQty = a.kits[0].quantity || 1;
-          const bQty = b.kits[0].quantity || 1;
-          if (aQty !== bQty) return aQty - bQty;
-          if (a.resultTier !== b.resultTier) return a.resultTier - b.resultTier;
-        }
-        return 0;
-      });
-    };
-
-    const sortedPerfect = sortGroup(perfect);
-    const sortedOkay = sortGroup(okay);
-    const sortedBad = sortGroup(bad);
-
-    if (DEBUG) {
-      console.log('🟢 PERFECT COUNT:', sortedPerfect.length);
-      console.log('🟡 OKAY COUNT:', sortedOkay.length);
-      console.log('🔴 BAD COUNT:', sortedBad.length);
-    }
-
-    // FILTER: If FILTER_OUT_NONPERFECT is true, ONLY return Perfect results
-    if (FILTER_OUT_NONPERFECT) {
-      return sortedPerfect.slice(0, MAX_RESULTS);
-    }
-
-    // Otherwise, return all results
-    const allSorted = [...sortedPerfect, ...sortedOkay, ...sortedBad];
-
-    const perfectCount = sortedPerfect.length;
-    if (perfectCount > MAX_RESULTS) {
-      return sortedPerfect.slice(0, MAX_RESULTS);
-    }
-
-    const remainingSlots = MAX_RESULTS - perfectCount;
-    const otherResults = [...sortedOkay, ...sortedBad];
-    const finalResults = [...sortedPerfect, ...otherResults.slice(0, remainingSlots)];
-
-    if (DEBUG) {
-      console.log('📊 FINAL RESULTS COUNT:', finalResults.length);
-    }
-
-    return finalResults;
+  // TIER 1: Standard single-kit matching
+  const standardMatches = generateStandardMatches(selectedKitName, targetValue);
+  for (const match of standardMatches) {
+    allResults.push(match);
   }
 
-  // ============================================================
+  // TIER 2: Most-Traded + Cross-Quality multiples
+  const crossQualityMatches = generateCrossQualityMatches(selectedKitName, targetValue, selectedQuality);
+  for (const match of crossQualityMatches) {
+    allResults.push(match);
+  }
+
+  // TIER 3: Remaining-kit multiples (OTHER KITS)
+  if (ENABLE_LOW_PRIORITY_MULTIPLES) {
+    const lowPriorityMatches = generateLowPriorityMatches(selectedKitName, targetValue);
+    for (const match of lowPriorityMatches) {
+      allResults.push(match);
+    }
+  }
+
+  // Remove duplicates
+  const seen = new Set();
+  const uniqueResults = [];
+  for (const result of allResults) {
+    const key = result.kits.map(k => k.name + '|' + k.quality + '|' + (k.quantity || 1)).join('+');
+    if (seen.has(key)) continue;
+    seen.add(key);
+    uniqueResults.push(result);
+  }
+
+  if (DEBUG) {
+    console.log('📊 TOTAL UNIQUE RESULTS:', uniqueResults.length);
+    const fireResResults = uniqueResults.filter(r => r.kits[0].name === 'Fire Resistance');
+    console.log('🔥 Fire Resistance results:', fireResResults);
+  }
+
+  // Add status to each result
+  const resultsWithStatus = uniqueResults.map(result => {
+    const statusResult = getTradeStatus(targetValue, result.totalValue);
+    return {
+      ...result,
+      status: statusResult.status,
+      statusEmoji: statusResult.emoji,
+      statusLabel: statusResult.label
+    };
+  });
+
+  // ----------------------------------------------------------
+  // FIX: Sort by diff (absolute difference) FIRST
+  // This is the primary sorting key across ALL results
+  // ----------------------------------------------------------
+  resultsWithStatus.sort((a, b) => {
+    // PRIMARY: Sort by diff (closest match first)
+    if (a.diff !== b.diff) {
+      return a.diff - b.diff;
+    }
+    // SECONDARY: Most Traded first (within same diff)
+    if (a.isMostTraded !== b.isMostTraded) {
+      return a.isMostTraded ? -1 : 1;
+    }
+    // TERTIARY: Single kits before multiples (within same diff)
+    if (a.isQuantityMultiple !== b.isQuantityMultiple) {
+      return a.isQuantityMultiple ? 1 : -1;
+    }
+    // QUATERNARY: For multiples, lower quantity first
+    if (a.isQuantityMultiple && b.isQuantityMultiple) {
+      const aQty = a.kits[0].quantity || 1;
+      const bQty = b.kits[0].quantity || 1;
+      if (aQty !== bQty) return aQty - bQty;
+      if (a.resultTier !== b.resultTier) return a.resultTier - b.resultTier;
+    }
+    return 0;
+  });
+
+  // FILTER: If FILTER_OUT_NONPERFECT is true, ONLY return Perfect results
+  if (FILTER_OUT_NONPERFECT) {
+    const perfectResults = resultsWithStatus.filter(r => r.status === 'perfect');
+    return perfectResults.slice(0, MAX_RESULTS);
+  }
+
+  // Otherwise, return all results sorted by diff
+  return resultsWithStatus.slice(0, MAX_RESULTS);
+}
+// ============================================================
   // UPDATE SELECTED KIT DISPLAY
   // ============================================================
 
