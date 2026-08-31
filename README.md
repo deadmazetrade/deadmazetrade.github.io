@@ -1,4 +1,4 @@
-## Deadmaze Trade Calculator & Trade Lookup
+## Dead Maze Trade Calculator & Trade Lookup
 
 - Website: https://deadmazetrade.github.io/
 - Developer: Rapidegaming#0915
