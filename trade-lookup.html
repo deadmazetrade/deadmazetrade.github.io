@@ -1408,12 +1408,6 @@ function findCombinations(targetValue, selectedKitName, selectedQuality) {
     uniqueResults.push(result);
   }
 
-  if (DEBUG) {
-    console.log('📊 TOTAL UNIQUE RESULTS:', uniqueResults.length);
-    const fireResResults = uniqueResults.filter(r => r.kits[0].name === 'Fire Resistance');
-    console.log('🔥 Fire Resistance results:', fireResResults);
-  }
-
   // Add status to each result
   const resultsWithStatus = uniqueResults.map(result => {
     const statusResult = getTradeStatus(targetValue, result.totalValue);
@@ -1426,7 +1420,7 @@ function findCombinations(targetValue, selectedKitName, selectedQuality) {
   });
 
   // ----------------------------------------------------------
-  // OPTION C SORTING: Status → Singles-first → Diff within groups
+  // CORRECTED SORTING: Status → Diff (closest first) → tie-breakers
   // ----------------------------------------------------------
   resultsWithStatus.sort((a, b) => {
     // PRIORITY 1: Status (Perfect > Okay > Bad)
@@ -1435,14 +1429,14 @@ function findCombinations(targetValue, selectedKitName, selectedQuality) {
       return statusOrder[a.status] - statusOrder[b.status];
     }
 
-    // PRIORITY 2: Single vs Multiple (singles before multiples)
-    if (a.isQuantityMultiple !== b.isQuantityMultiple) {
-      return a.isQuantityMultiple ? 1 : -1;
-    }
-
-    // PRIORITY 3: Diff (closest first) - within each status + singles/multiples group
+    // PRIORITY 2: Diff (closest first) - PRIMARY SORT
     if (a.diff !== b.diff) {
       return a.diff - b.diff;
+    }
+
+    // PRIORITY 3: Single vs Multiple (singles before multiples) - TIE-BREAKER
+    if (a.isQuantityMultiple !== b.isQuantityMultiple) {
+      return a.isQuantityMultiple ? 1 : -1;
     }
 
     // PRIORITY 4: Most Traded first (within same diff and group)
@@ -1471,7 +1465,6 @@ function findCombinations(targetValue, selectedKitName, selectedQuality) {
     return perfectResults.slice(0, MAX_RESULTS);
   }
 
-  // Otherwise, return all results sorted by Option C logic
   return resultsWithStatus.slice(0, MAX_RESULTS);
 }
 
